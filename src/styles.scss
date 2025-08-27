@@ -1,1 +1,98 @@
 /* You can add global styles to this file, and also import other style files */
+/* styles.scss */
+@import "primeicons/primeicons.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gap: 12px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+.app-toolbar {
+  @apply bg-blue-600 text-white px-4 py-3 flex items-center gap-4;
+}
+.nav-link {
+  @apply px-3 py-1 rounded hover:bg-blue-500 cursor-pointer transition;
+}
+.card {
+  @apply bg-white dark:bg-gray-800 dark:text-gray-100 rounded-xl shadow p-4;
+}
+
+// PRIME NG CUSTOM
+.dark-select .p-component.p-inputwrapper {
+  background-color: white;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.dark .dark-select .p-component.p-inputwrapper {
+  background: #1f2937 !important;
+  color: #e5e7eb;
+  border: 1px solid #4b5563;
+  .p-select-label {
+    color: white;
+  }
+}
+
+.dark-datepicker .p-datepicker-input {
+  background-color: white;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+.dark .dark-datepicker .p-datepicker-input {
+  background: #1f2937 !important;
+  color: #e5e7eb;
+  border: 1px solid #4b5563;
+}
+
+// Table custom
+.custom-datatable {
+  @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200;
+
+  .p-datatable-thead > tr > th {
+    @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200;
+  }
+
+  .p-datatable-tbody > tr {
+    @apply bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200;
+  }
+
+  .p-datatable-tbody > tr:nth-child(even) {
+    @apply bg-gray-50 dark:bg-gray-900;
+  }
+
+  /* Paginator dark mode */
+  .p-paginator {
+    @apply bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 
+           text-gray-700 dark:text-gray-300;
+
+    .p-paginator-page,
+    .p-paginator-prev,
+    .p-paginator-next,
+    .p-paginator-first,
+    .p-paginator-last {
+      @apply bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 
+        border border-gray-300 dark:border-gray-600 rounded-md 
+        hover:bg-gray-200 dark:hover:bg-gray-600;
+    }
+
+    .p-paginator-page-selected {
+      @apply bg-blue-600 text-white dark:bg-blue-500 dark:text-white 
+        border border-blue-600 dark:border-blue-400 font-bold shadow-md;
+
+      &:hover {
+        @apply bg-blue-600 dark:bg-blue-500 text-white dark:text-white;
+      }
+    }
+  }
+}

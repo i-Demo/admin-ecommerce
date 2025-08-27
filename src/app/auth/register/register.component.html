@@ -1,0 +1,87 @@
+<div class="flex flex-col justify-center items-center min-h-screen
+            bg-gradient-to-tr from-purple-800 via-pink-600 to-indigo-700 overflow-hidden relative">
+
+    <!-- Logo -->
+    <div class="relative mb-16 flex flex-col items-center animate-slow-bounce">
+        <div class="w-28 h-28 rounded-full 
+            bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600
+            text-white text-4xl font-extrabold flex items-center justify-center
+            shadow-2xl ring-8 ring-white/20">
+            iD
+        </div>
+        <p class="mt-3 text-white text-3xl font-bold drop-shadow-lg">i Demo</p>
+    </div>
+
+    <!-- Register Form -->
+    <div class="relative z-10 w-full max-w-md p-8 bg-white/90 dark:bg-gray-900/90
+                rounded-3xl shadow-2xl backdrop-blur-md border border-white/20">
+
+        <form [formGroup]="registerForm" (ngSubmit)="register()">
+            <!-- Email -->
+            <div class="mb-2">
+                <input pInputText type="email" formControlName="email" placeholder="Email" class="w-full"/>
+                @if(emailError()) {
+                <p class="text-red-500 text-sm mt-1">{{ emailError() }}</p>
+                }
+            </div>
+
+            <!-- Password -->
+            <div class="mb-2">
+                <div class="relative">
+                <input pInputText formControlName="password"
+                        [type]="showPassword() ? 'text' : 'password'" 
+                        placeholder="Password" class="w-full !pr-8"/>
+                <button type="button" (click)="togglePassword()"
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <i class="pi" [ngClass]="showPassword() ? 'pi-eye-slash' : 'pi-eye'"></i>
+                </button>
+                </div>
+                @if(passwordError()) {
+                    <p class="text-red-500 text-sm my-1">{{ passwordError() }}</p>
+                }
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-2">
+                <div class="relative">
+                <input pInputText formControlName="repassword"
+                        [type]="showRePassword() ? 'text' : 'password'" 
+                        placeholder="Confirm Password" class="w-full !pr-8"/>
+                <button type="button" (click)="toggleRePassword()"
+                        class="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <i class="pi" [ngClass]="showRePassword() ? 'pi-eye-slash' : 'pi-eye'"></i>
+                </button>
+                </div>
+                @if(registerForm.hasError('passwordMismatch') && registerForm.get('repassword')?.touched) {
+                    <p class="text-red-500 text-sm my-1">
+                        Passwords do not match
+                    </p>
+                }
+            </div>
+
+            <!-- API Error -->
+            <div class="mb-2">
+                @if(error()) {
+                <p class="text-red-500 text-sm mt-1">{{ error() }}</p>
+                }
+            </div>
+
+            <!-- Submit Button -->
+            <button pButton type="submit"
+                    class="w-full relative transition-all duration-300 h-[44px]"
+                    [disabled]="isFormEmpty || loading()">
+                <span *ngIf="!loading()">Register</span>
+                <span *ngIf="loading()" class="flex space-x-1">
+                <span class="dot"></span>
+                <span class="dot delay-150"></span>
+                <span class="dot delay-300"></span>
+                </span>
+            </button>
+        </form>
+
+        <p class="mt-4 text-sm text-center text-gray-600 dark:text-gray-300">
+            Already have an account? 
+            <a routerLink="/login" class="text-pink-400 hover:underline">Login</a>
+        </p>
+    </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="w-screen h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4">
+    <div class="max-w-3xl w-full text-center">
+        <!-- Blob / gradient bg -->
+        <div class="relative mx-auto mb-8 h-40 w-40">
+            <div class="absolute inset-0 rounded-full blur-2xl opacity-40 animate-pulse
+                        bg-gradient-to-tr from-indigo-500 via-sky-400 to-emerald-400"></div>
+            <div class="relative flex h-40 w-40 items-center justify-center rounded-full
+                        bg-white dark:bg-gray-800 shadow-xl ring-1 ring-black/5 dark:ring-white/10">
+                <span class="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">404</span>
+            </div>
+        </div>
+
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+            {{ 'NOT_FOUND' | translate }}
+        </h1>
+        <p class="mt-3 text-base md:text-lg text-gray-600 dark:text-gray-300">
+            {{ 'NOT_FOUND_CONTENT' | translate }}
+        </p>
+
+        <!-- Quick search -->
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <span class="relative w-full sm:w-[360px]">
+                <input pInputText type="text" #kw
+                    (keydown.enter)="onSearch(kw.value)"
+                    [placeholder]="'SEARCH_QUICK' | translate"
+                    class="w-full pl-4 pr-10 py-3 rounded-xl border border-gray-200 dark:border-gray-700
+                        bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100
+                        focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <i class="pi pi-search absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+            </span>
+            <button pButton [label]="'SEARCH' | translate" (click)="onSearch(kw.value)" class="px-5 py-3 rounded-xl w-24"></button>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <button pButton (click)="goBack()" [label]="'BACK' | translate" icon="pi pi-arrow-left"
+                    class="p-button-outlined"></button>
+            <a routerLink="/dashboard" pButton [label]="'GO_TO_DASHBOARD' | translate" icon="pi pi-home"
+                class="p-button-outlined"></a>
+            <a routerLink="/login" pButton [label]="'LOGIN' | translate" icon="pi pi-user"
+                class="p-button-outlined"></a>
+        </div>
+
+        <!-- Helpful links -->
+        <div class="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <a routerLink="/dashboard"
+            class="group rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                    hover:shadow-lg transition">
+            <div class="flex items-center gap-3">
+                <i class="pi pi-chart-line text-xl"></i>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-900 dark:text-gray-100 group-hover:underline">Dashboard</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Tổng quan số liệu</p>
+                </div>
+            </div>
+        </a>
+
+        <a routerLink="/tasks"
+            class="group rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                    hover:shadow-lg transition">
+            <div class="flex items-center gap-3">
+                <i class="pi pi-list-check text-xl"></i>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-900 dark:text-gray-100 group-hover:underline">Tasks</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Công việc gần đây</p>
+                </div>
+            </div>
+        </a>
+
+        <a routerLink="/forms"
+            class="group rounded-2xl p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700
+                    hover:shadow-lg transition">
+            <div class="flex items-center gap-3">
+                <i class="pi pi-sliders-h text-xl"></i>
+                <div class="text-left">
+                    <p class="font-semibold text-gray-900 dark:text-gray-100 group-hover:underline">Forms</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Tạo & chỉnh sửa</p>
+                </div>
+            </div>
+        </a>
+        </div>
+    </div>
+</div>

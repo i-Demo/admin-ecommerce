@@ -1,0 +1,29 @@
+<aside 
+    [class.w-64]="open" 
+    [class.w-16]="!open"
+    class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg h-full transition-width duration-300 relative z-40">
+
+    <!-- Collapse Button -->
+    <button
+        (click)="toggleSidebar()"
+        class="absolute top-12 -right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-gray-700 text-gray-800 dark:text-white shadow-md hover:bg-gray-300 dark:hover:bg-gray-600 transition">
+        <!-- PrimeNG Icon -->
+        <i class="pi" [ngClass]="open ? 'pi-angle-left' : 'pi-angle-right'"></i>
+    </button>
+
+
+    <!-- Menu -->
+    <nav class="flex flex-col gap-2 p-2">
+        <a *ngFor="let item of menu" 
+            [routerLink]="item.route" 
+            routerLinkActive="bg-gray-200 dark:bg-gray-700"
+            class="flex items-center gap-3 px-4 py-3 h-12 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300 ease-in-out">
+            
+            <i [class]="'pi ' + item.icon"></i>
+            @if(open) {
+                <span class="font-medium truncate">{{ item.label | translate }}</span>
+            }
+        </a>
+    </nav>
+
+</aside>

@@ -1,0 +1,122 @@
+<div class="p-6 bg-gray-50 dark:bg-gray-900 min-h-screen">
+
+    <!-- Custom Date Picker -->
+    <div class="flex flex-wrap justify-end xl:justify-between items-center gap-3 mb-6">
+        <!-- Quick pick buttons -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <button (click)="setToday()" class="btn-quickpick bg-blue-600 hover:bg-blue-700">
+                <i class="pi pi-calendar"></i>
+                {{ 'TODAY' | translate }}
+            </button>
+            <button (click)="setThisWeek()" class="btn-quickpick bg-green-600 hover:bg-green-700">
+                <i class="pi pi-calendar-times"></i>
+                {{ 'THIS_WEEK' | translate }}
+            </button>
+            <button (click)="setThisMonth()" class="btn-quickpick bg-purple-600 hover:bg-purple-700">
+                <i class="pi pi-calendar-plus"></i>
+                {{ 'THIS_MONTH' | translate }}
+            </button>
+            <button (click)="setThisYear()" class="btn-quickpick bg-yellow-500 hover:bg-yellow-600">
+                <i class="pi pi-calendar-minus"></i>
+                {{ 'THIS_YEAR' | translate }}
+            </button>
+        </div>
+        <!-- Manual date pick -->
+        <div class="flex gap-2 items-center justify-end dark-datepicker">
+            <p-datepicker [(ngModel)]="fromDate" [maxDate]="toDate" placeholder="Start Date"
+                        [readonlyInput]="true" (onSelect)="onSelectDateRange()" appendTo="body"></p-datepicker>
+            <span class="mx-2">→</span>
+            <p-datepicker [(ngModel)]="toDate" [minDate]="fromDate" placeholder="End Date"
+                        [readonlyInput]="true" (onSelect)="onSelectDateRange()" appendTo="body"></p-datepicker>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="kpi-card bg-white dark:bg-gray-800">
+            <div>
+                <h3 class="text-gray-500 dark:text-gray-300 text-sm font-medium">{{ 'ORDERS' | translate }}</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{kpi.orders}}</p>
+            </div>
+            <i class="pi pi-shopping-cart text-3xl text-blue-500"></i>
+        </div>
+        <div class="kpi-card bg-white dark:bg-gray-800">
+            <div>
+                <h3 class="text-gray-500 dark:text-gray-300 text-sm font-medium">{{ 'REVENUE' | translate }}</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">${{kpi.revenue}}</p>
+            </div>
+            <i class="pi pi-dollar text-3xl text-green-500"></i>
+        </div>
+        <div class="kpi-card bg-white dark:bg-gray-800">
+            <div>
+                <h3 class="text-gray-500 dark:text-gray-300 text-sm font-medium">{{ 'CUSTOMERS' | translate }}</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{kpi.customers}}</p>
+            </div>
+            <i class="pi pi-users text-3xl text-purple-500"></i>
+        </div>
+        <div class="kpi-card bg-white dark:bg-gray-800">
+            <div>
+                <h3 class="text-gray-500 dark:text-gray-300 text-sm font-medium">{{ 'PENDING' | translate }}</h3>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{kpi.pending}}</p>
+            </div>
+            <i class="pi pi-clock text-3xl text-yellow-500"></i>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 hover:shadow-2xl transition">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-3">{{ 'REVENUE_TREND' | translate }}</h3>
+            <p-chart type="line" [data]="revenueData" [options]="chartOptions"></p-chart>
+        </div>
+        <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 hover:shadow-2xl transition">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-3">{{ 'ORDER_STATUS' | translate }}</h3>
+            <p-chart type="pie" [data]="orderStatusData" [options]="chartOptions"></p-chart>
+        </div>
+    </div>
+
+    <!-- Top Products -->
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 hover:shadow-2xl transition min-h-[586px] custom-datatable">
+        <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-3">{{ 'TOP_PRODUCTS' | translate }}</h3>
+
+        <div class="flex justify-end mb-3">
+            <div class="relative w-full min-[900px]:w-96">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                <i class="pi pi-search"></i>
+                </span>
+                <input type="text" placeholder="{{ 'SEARCH_PRODUCT' | translate }}" [(ngModel)]="searchProduct"
+                    class="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 dark:border-gray-600
+                        bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white  outline-none transition-all duration-200"/>
+            </div>
+        </div>
+
+
+        <p-table [value]="filteredProducts" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'" scrollable="true" scrollHeight="flex">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>{{ 'NO' | translate }}</th>
+                    <th>{{ 'PRODUCT' | translate }}</th>
+                    <th>{{ 'CATEGORY' | translate }}</th>
+                    <th pSortableColumn="sold">{{ 'SOLD' | translate }} <p-sortIcon field="sold"></p-sortIcon></th>
+                    <th pSortableColumn="revenue">{{ 'REVENUE' | translate }} <p-sortIcon field="revenue"></p-sortIcon></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-i="rowIndex">
+                <tr>
+                    <td>{{i + 1}}</td>
+                    <td>{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.sold}}</td>
+                    <td>${{product.revenue}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5" class="text-center text-gray-500 dark:text-gray-300 py-4">
+                        {{ 'NO_PRODUCTS_FOUND' | translate }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

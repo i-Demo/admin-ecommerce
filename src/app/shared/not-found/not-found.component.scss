@@ -1,0 +1,6 @@
+/* Nhẹ nhàng: giảm motion cho người dùng prefer-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    .animate-pulse {
+        animation: none !important;
+    }
+}

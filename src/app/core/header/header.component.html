@@ -1,0 +1,72 @@
+<header class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 w-full z-50">
+    <!-- Logo -->
+    <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600
+            text-white flex items-center justify-center font-bold text-xl shadow-lg">
+            iD
+        </div>
+        <span class="text-xl font-bold text-gray-800 dark:text-white">i Demo</span>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex items-center gap-4 dark-select">
+        <!-- Language Dropdown -->
+        <p-select [options]="langs"
+            [(ngModel)]="selectedLang"
+            optionLabel="label"
+            placeholder="Language"
+            class="w-36">
+
+            <ng-template let-lang pTemplate="selectedItem">
+                <span class="flex items-center gap-2">
+                <span>{{ lang.flag }}</span>
+                <span class="font-semibold">{{ lang.code }}</span>
+                </span>
+            </ng-template>
+
+            <ng-template let-lang pTemplate="item">
+                <div class="flex items-center gap-2">
+                <span>{{ lang.flag }}</span>
+                <span>{{ lang.label }}</span>
+                </div>
+            </ng-template>
+        </p-select>
+
+        <!-- Theme Toggle -->
+        <button (click)="toggleTheme()"
+            type="button"
+            class="flex justify-center items-center gap-2 px-4 py-2 min-w-[100px] bg-gray-200 dark:bg-gray-700 text-gray-800 
+                dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+        >
+            @if (isLightTheme()) {
+                <i class="pi pi-sun"></i>
+            } @else {
+                <i class="pi pi-moon"></i>
+            }
+            {{ (isLightTheme() ? 'LIGHT' : 'DARK') | translate }}
+        </button>
+
+        <div class="relative user-menu-container">
+            <!-- Avatar Button -->
+            <button (click)="toggleMenu()"
+                    class="w-10 h-10 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center text-gray-800 dark:text-white shadow-md hover:ring-2 hover:ring-indigo-500 transition">
+                {{ userInitials }}
+            </button>
+
+            <!-- Menu -->
+            <div *ngIf="showMenu()"
+                class="absolute right-0 mt-2 w-52 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg rounded-lg
+                    border border-gray-200 dark:border-gray-700 overflow-hidden z-50">
+                <div class="p-3 border-b border-gray-200 dark:border-gray-700">
+                    <p class="font-semibold">{{ user.name }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ user.email }}</p>
+                </div>
+                <button (click)="logout()"
+                    class="flex items-center gap-2 w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200">
+                    <i class="pi pi-sign-out text-red-500"></i>
+                    <span class="font-medium">{{ 'LOGOUT' | translate }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>

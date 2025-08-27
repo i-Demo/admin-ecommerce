@@ -1,8 +1,34 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
+import { provideHttpClient } from '@angular/common/http';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { routes } from './app.routes';
+import { providePrimeNG } from 'primeng/config';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import Aura from '@primeuix/themes/aura';
+import { MessageService } from 'primeng/api';
+import localeEn from 'primelocale/en.json';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes)]
+    providers: [
+        provideRouter(routes),
+        provideHttpClient(),
+        provideTranslateService({
+            lang: 'en',
+            fallbackLang: 'en',
+            loader: provideTranslateHttpLoader({
+                prefix: "./assets/i18n/",
+                suffix: ".json"
+            }),
+        }),
+        provideAnimationsAsync(),
+        MessageService,
+        providePrimeNG({
+            translation: localeEn.en,
+            theme: {
+                preset: Aura,
+            },
+        }),
+    ]
 };
