@@ -1,0 +1,69 @@
+@if(total>0) {
+    <div class="flex justify-between items-center">
+        <!-- Page Size Select -->
+        <div class="hidden min-[620px]:!flex items-center !gap-2 !px-6 !py-4 justify-center max-h-[36px] min-h-[36px]">
+            <div class="text-sm text-palette-gray-500 md:block hidden whitespace-nowrap">
+                {{'ITEMS_PER_PAGE' | translate}}:
+            </div>
+    
+            <p-popover #op>
+                <ng-template pTemplate="content">
+                    <div class="min-w-[60px] lg:min-h-fit font-inter bg-white mt-2 rounded-lg max-h-[160px] overflow-y-auto shadow-2xl">
+                        @for (item of pageSizeList; track item.page_size) {
+                            <div (click)="handleChangePageSize(item.page_size, op)"
+                                class="flex border-b items-center space-x-2 h-8 text-palette-gray-500 p-2
+                                    cursor-pointer hover:font-medium hover:bg-black hover:bg-opacity-[0.15]">
+                                <span class="text-sm">{{ item.page_size }}</span>
+                            </div>
+                        }
+                    </div>
+                </ng-template>
+            </p-popover>
+    
+            <button class="select-page-size h-[36px] space-x-2 bg-white dark:bg-gray-600 max-h-[36px] min-h-[36px] 
+                max-w-[61px] min-w-[61px] flex items-center justify-center"
+                (click)="op.toggle($event)">
+                <div class="text-palette-gray-500 text-sm">{{pageSize}}</div>
+                <i class="sctr-icon-chevron-down text-xl text-palette-gray-500"></i>
+            </button>
+        </div>
+    
+        <!-- Pagination -->
+        <nav aria-label="Pagination" class="text-right !py-3 w-full min-w-[285px]">
+            <ul class="flex flex-row justify-end items-center m-0 p-0 list-none">
+                <li class="select-none !mx-1 my-0">
+                    <button class="flex h-9 min-[460px]:min-w-[36px] max-w-[36px] cursor-pointer justify-center items-center"
+                        [disabled]="current === 1" (click)="onPrevious()">
+                        <i class="pi pi-chevron-left" style="font-size: 14px"
+                            [ngClass]="current === 1 ? 'text-palette-gray-500 cursor-default': 'text-palette-gray-800 cursor-pointer' "></i>
+                    </button>
+                </li>
+    
+                @for (page of pages; track page + '-' + $index; let i = $index) {
+                    <li>
+                        @if (page !== -1) {
+                            <a 
+                                class="internal dark:!text-white"
+                                [class.current]="page === current"
+                                tabindex="0"
+                                (click)="onGoTo(page)"
+                                (keyup.enter)="onGoTo(page)">
+                                {{ page }}
+                            </a>
+                        } @else {
+                            <a class="more"> ... </a>
+                        }
+                    </li>
+                }
+    
+                <li class="select-none !mx-1 my-0">
+                    <button class="flex h-9 min-[460px]:min-w-[36px] max-w-[36px] cursor-pointer justify-center items-center"
+                        [disabled]="current === total" (click)="onNext()">
+                        <i class="pi pi-chevron-right" style="font-size: 14px"
+                            [ngClass]="current === total ? 'text-palette-gray-500 cursor-default': 'text-palette-gray-800 cursor-pointer' "></i>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}

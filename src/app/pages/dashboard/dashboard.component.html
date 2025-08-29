@@ -82,7 +82,7 @@
         <div class="flex justify-end mb-3">
             <div class="relative w-full min-[900px]:w-96">
                 <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                <i class="pi pi-search"></i>
+                    <i class="pi pi-search"></i>
                 </span>
                 <input type="text" placeholder="{{ 'SEARCH_PRODUCT' | translate }}" [(ngModel)]="searchProduct"
                     class="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 dark:border-gray-600
@@ -91,7 +91,9 @@
         </div>
 
 
-        <p-table [value]="filteredProducts" [paginator]="true" [rows]="10" [responsiveLayout]="'scroll'" scrollable="true" scrollHeight="flex">
+        <p-table [value]="filteredProducts" [paginator]="true" [rows]="itemsPerPage()" 
+            [sortField]="defaultSortField" [sortOrder]="defaultSortOrder"
+            [responsiveLayout]="'scroll'" scrollable="true" scrollHeight="flex">
             <ng-template pTemplate="header">
                 <tr>
                     <th>{{ 'NO' | translate }}</th>

@@ -1,0 +1,84 @@
+<div class="flex h-full bg-gray-100 dark:bg-gray-900">
+    <!-- Sidebar -->
+    <aside class="w-64 rounded-lg bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-4">
+        <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-6">Settings</h2>
+        <nav class="space-y-2">
+            <button class="w-full text-left px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                    [ngClass]="{ 'bg-gray-200 dark:bg-gray-700 font-semibold': activeTab==='account' }"
+                    (click)="activeTab='account'">
+                Account & Security
+            </button>
+            <button class="w-full text-left px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                    [ngClass]="{ 'bg-gray-200 dark:bg-gray-700 font-semibold': activeTab==='preferences' }"
+                    (click)="activeTab='preferences'">
+                Product Preferences
+            </button>
+            <button class="w-full text-left px-3 py-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700"
+                    [ngClass]="{ 'bg-gray-200 dark:bg-gray-700 font-semibold': activeTab==='theme' }"
+                    (click)="activeTab='theme'">
+                Theme & Layout
+            </button>
+        </nav>
+    </aside>
+
+    <!-- Content Panel -->
+    <div class="flex-1 p-6">
+        <!-- Account & Security -->
+        <div *ngIf="activeTab==='account'" class="space-y-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Account & Security</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 mb-1">New Password</label>
+                    <input type="password" [(ngModel)]="newPassword" placeholder="New Password" 
+                        class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"/>
+                </div>
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 mb-1">Confirm Password</label>
+                    <input type="password" [(ngModel)]="confirmPassword" placeholder="Confirm Password"
+                        class="w-full px-3 py-2 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-800 dark:text-white"/>
+                </div>
+            </div>
+
+            <div class="flex justify-end items-center gap-4">
+                <button pButton type="button" label="Save Changes" class="ml-auto px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded"
+                    (click)="updatePassword()">
+                </button>
+            </div>
+            <p-toggleButton [(ngModel)]="twoFAEnabled" 
+                [onLabel]="'2FA On'" offLabel="2FA Off" 
+                [onIcon]="'pi pi-check'" [offIcon]="'pi pi-times'">
+            </p-toggleButton>
+        </div>
+
+
+        <!-- Product Preferences -->
+        <div *ngIf="activeTab==='preferences'" class="space-y-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Product Preferences</h3>
+
+            <label class="block text-gray-700 dark:text-gray-300 mb-1">Items per Page</label>
+            <p-dropdown [options]="[5,10,20,50]" [(ngModel)]="itemsPerPage" [showClear]="false"></p-dropdown>
+
+            <label class="block text-gray-700 dark:text-gray-300 mt-4 mb-1">Default Sort Order</label>
+            <p-dropdown [options]="['Name Asc', 'Name Desc', 'Price Asc', 'Price Desc']" [(ngModel)]="defaultSort"></p-dropdown>
+        </div>
+
+        <!-- Theme & Layout -->
+        <div *ngIf="activeTab==='theme'" class="space-y-6">
+            <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Theme & Layout</h3>
+
+            <button (click)="toggleTheme()"
+                type="button"
+                class="flex justify-center items-center gap-2 px-4 py-2 min-w-[100px] bg-gray-200 dark:bg-gray-700 text-gray-800 
+                    dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+            >
+                @if (isLightTheme()) {
+                    <i class="pi pi-sun"></i>
+                } @else {
+                    <i class="pi pi-moon"></i>
+                }
+                {{ (isLightTheme() ? 'LIGHT' : 'DARK') | translate }}
+            </button>
+        </div>
+    </div>
+</div>

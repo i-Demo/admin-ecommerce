@@ -1,10 +1,10 @@
 <header class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 w-full z-50">
     <!-- Logo -->
     <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600
+        <a [routerLink]="'/dashboard'" class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600
             text-white flex items-center justify-center font-bold text-xl shadow-lg">
             iD
-        </div>
+        </a>
         <span class="text-xl font-bold text-gray-800 dark:text-white">i Demo</span>
     </div>
 
@@ -19,15 +19,15 @@
 
             <ng-template let-lang pTemplate="selectedItem">
                 <span class="flex items-center gap-2">
-                <span>{{ lang.flag }}</span>
-                <span class="font-semibold">{{ lang.code }}</span>
+                    <span>{{ lang.flag }}</span>
+                    <span class="font-semibold">{{ lang.code }}</span>
                 </span>
             </ng-template>
 
             <ng-template let-lang pTemplate="item">
                 <div class="flex items-center gap-2">
-                <span>{{ lang.flag }}</span>
-                <span>{{ lang.label }}</span>
+                    <span>{{ lang.flag }}</span>
+                    <span>{{ lang.label }}</span>
                 </div>
             </ng-template>
         </p-select>

@@ -1,0 +1,238 @@
+<div class="w-full p-6 bg-gray-50 dark:bg-gray-900">
+    <div class="flex justify-start items-center gap-6 w-full mb-6">
+        <h3 class="text-lg text-gray-700 dark:text-gray-300 font-semibold">{{ 'PRODUCT_MANAGEMENT' | translate }}</h3>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        <ng-container *ngIf="!loading; else statsSkeleton">
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow dark:shadow-gray-700">
+                <p class="text-gray-500 dark:text-gray-400">{{ 'TOTAL_PRODUCTS' | translate }}</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ totalProductsAvailable }}/{{ totalProducts }}</p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow dark:shadow-gray-700">
+                <p class="text-gray-500 dark:text-gray-400">{{ 'NEW_PRODUCTS_MONTH' | translate }}</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ newProductsThisMonth }}</p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow dark:shadow-gray-700">
+                <p class="text-gray-500 dark:text-gray-400">{{ 'HIGH_RATING_PRODUCTS' | translate }}</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ highRatingProducts }}</p>
+            </div>
+
+            <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow dark:shadow-gray-700">
+                <p class="text-gray-500 dark:text-gray-400">{{ 'LOW_RATING_PRODUCTS' | translate }}</p>
+                <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ lowRatingProducts }}</p>
+            </div>
+        </ng-container>
+
+        <ng-template #statsSkeleton>
+            <div *ngFor="let s of [1,2,3,4]" class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow dark:shadow-gray-700">
+                <p-skeleton height="20px" width="60%" styleClass="mb-2"></p-skeleton>
+                <p-skeleton height="32px" width="40%"></p-skeleton>
+            </div>
+        </ng-template>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 transition">
+        <div class="flex flex-wrap justify-between gap-4 mb-4">
+            <!-- Search -->
+            <div class="relative w-full 2xl:w-[280px] min-w-[220px]">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 dark:text-gray-300">
+                    <i class="pi pi-search"></i>
+                </span>
+                <input 
+                    type="text" 
+                    placeholder="{{ 'SEARCH_PRODUCT' | translate }}" 
+                    [(ngModel)]="searchTerm"
+                    class="pl-10 pr-4 py-2 w-full rounded-lg border border-gray-300 dark:border-gray-600
+                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                />
+            </div>
+
+            <!-- In Stock Filter -->
+            <div class="flex-1 flex gap-2 items-center w-full xl:w-fit">
+                <label class="max-xl:min-w-[68px] text-gray-600 dark:text-gray-300 font-semibold whitespace-nowrap">{{ 'IN_STOCK' | translate}}:</label>
+                <input 
+                    type="number" 
+                    placeholder="{{ 'MIN_STOCK' | translate }}" 
+                    [(ngModel)]="filterStockMin"
+                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
+                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                    [ngClass]="{
+                        'border-gray-300 dark:border-gray-600': !filterStockMin || (filterStockMin && filterStockMin >=0),
+                        'border-red-500': (filterStockMin && filterStockMin < 0)
+                    }"
+                />
+                <span class="text-gray-600 dark:text-gray-300 font-semibold">-</span>
+                <input 
+                    type="number" 
+                    placeholder="{{ 'MAX_STOCK' | translate }}" 
+                    [(ngModel)]="filterStockMax"
+                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
+                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                    [ngClass]="{
+                        'border-gray-300 dark:border-gray-600': !filterStockMax || (filterStockMax && filterStockMax >=0),
+                        'border-red-500': (filterStockMax && filterStockMax < 0)
+                    }"
+                />
+            </div>
+
+            <!-- Price Filter -->
+            <div class="flex-1 flex gap-2 items-center w-full xl:w-fit">
+                <label class="max-xl:min-w-[68px] text-gray-600 dark:text-gray-300 font-semibold">{{ 'PRICE' | translate}}:</label>
+                <input 
+                    type="number" 
+                    placeholder="{{ 'MIN_PRICE' | translate }}" 
+                    [(ngModel)]="filterPriceMin"
+                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
+                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                    [ngClass]="{
+                        'border-gray-300 dark:border-gray-600': !filterPriceMin || (filterPriceMin && filterPriceMin >=0),
+                        'border-red-500': (filterPriceMin && filterPriceMin < 0)
+                    }"
+                />
+                <span class="text-gray-600 dark:text-gray-300 font-semibold">-</span>
+                <input 
+                    type="number" 
+                    placeholder="{{ 'MAX_PRICE' | translate }}" 
+                    [(ngModel)]="filterPriceMax"
+                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
+                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                    [ngClass]="{
+                        'border-gray-300 dark:border-gray-600': !filterPriceMax || (filterPriceMax && filterPriceMax >=0),
+                        'border-red-500': (filterPriceMax && filterPriceMax < 0)
+                    }"
+                />
+            </div>
+
+        </div>
+
+        <div class="flex justify-end items-center gap-3 mt-4 mb-4">
+            <!-- Export Button -->
+            <button 
+                (click)="exportProducts()"
+                [disabled]="isExporting"
+                class="px-4 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 
+                    dark:bg-blue-500 dark:hover:bg-blue-600 transition-all shadow">
+                <i *ngIf="!isExporting" class="pi pi-download mr-2"></i>
+                <i *ngIf="isExporting" class="pi pi-spin pi-spinner mr-2"></i>
+                {{ 'EXPORT' | translate }}
+            </button>
+
+            <!-- Reset Button -->
+            <button 
+                (click)="resetFilters()"
+                class="px-4 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 
+                    dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 transition-all shadow">
+                <i class="pi pi-refresh mr-2"></i>
+                {{ 'RESET' | translate }}
+            </button>
+
+            <!-- Search Button -->
+            <button (click)="applyFilters()"
+                [disabled]="(filterStockMin && filterStockMin < 0) 
+                        || (filterStockMax && filterStockMax < 0)
+                        || (filterPriceMin && filterPriceMin < 0) 
+                        || (filterPriceMax && filterPriceMax < 0)"
+                class="px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 
+                    dark:bg-green-500 dark:hover:bg-green-600 transition-all shadow
+                    disabled:opacity-50 disabled:cursor-not-allowed">
+                <i class="pi pi-search mr-2"></i>
+                {{ 'SEARCH' | translate }}
+            </button>
+
+        </div>
+
+        <!-- Table -->
+        <div class="relative overflow-auto rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <table class="min-w-full border-collapse border-spacing-0 text-sm">
+                <thead class="bg-gray-100 dark:bg-gray-700 sticky top-0 z-10">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'PRODUCT' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'SKU' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'SHOP_NAME' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'SELLER_ID' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'IN_STOCK' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'SOLD' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'PRICE' | translate}}</th>
+                        <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-200">{{ 'ACTION' | translate}}</th>
+                    </tr>
+                </thead>
+
+                @if(!loading) {
+                    <tbody>
+                        <tr *ngIf="filteredProducts.length === 0">
+                            <td colspan="8" class="text-center py-4 text-gray-500 dark:text-gray-400">{{ 'NO_PRODUCTS_FOUND' | translate}}</td>
+                        </tr>
+                        <tr *ngFor="let product of filteredProducts"
+                            class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 border-b border-gray-200 dark:border-gray-700">
+                            
+                            <td class="px-4 py-2 flex items-center gap-3">
+                                <img [src]="product.imageUrl" alt="{{ product.name }}" class="w-12 h-12 min-w-12 rounded object-cover border" />
+                                <div>
+                                    <div class="font-medium text-gray-900 dark:text-gray-100 whitespace-nowrap hover:underline cursor-pointer">{{ product.name }}</div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="text-xs text-gray-500 dark:text-gray-400">{{ product.category }}</div>
+                                        <span 
+                                            class="text-xs font-semibold px-2 py-0.5 rounded-full"
+                                            [ngClass]="product.status === 'Active' 
+                                            ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' 
+                                            : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'">
+                                            {{ (product.status === 'Active' ? 'ACTIVE' : 'INACTIVE') | translate}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-2 whitespace-nowrap">{{ product.sku }}</td>
+                            <td class="px-4 py-2 whitespace-nowrap">{{ product.shopName }}</td>
+                            <td class="px-4 py-2 whitespace-nowrap">{{ product.sellerId }}</td>
+                            <td class="px-4 py-2">{{ product.inStock }}</td>
+                            <td class="px-4 py-2">{{ product.sold }}</td>
+                            <td class="px-4 py-2">{{ product.price | currency:'USD' }}</td>
+                            <td class="px-4 py-2 text-center">
+                                <p-menu #menu [popup]="true" [model]="menuItems" appendTo="body"></p-menu>
+                                <button pButton type="button" icon="pi pi-ellipsis-v" class="p-button-rounded p-button-text custom-btn"
+                                    (click)="showActionMenu(product); menu.toggle($event)">
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                } @else {
+                    <!-- Skeleton -->
+                    @for (row of skeletonRows; track $index) {
+                        <tr class="border-b border-gray-200 dark:border-gray-700">
+                            @for (col of [1,2,3,4,5,6,7,8]; track $index) {
+                                <td class="px-4 py-[18px]">
+                                    <p-skeleton height="28px" width="100%">
+                                    </p-skeleton>
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </table>
+            @if (isCallAPI) {
+                <div class="absolute inset-0 bg-black/20 flex items-center justify-center z-50">
+                    <p-progressSpinner styleClass="w-12 h-12 text-green-500"></p-progressSpinner>
+                </div>
+            }
+        </div>
+
+        @if(filteredProducts.length) {
+            <div class="mt-3">
+                <!-- Pagination -->
+                <app-custom-paginator
+                    class="bg-white"
+                    [total]="totalPages"
+                    [current]="currentPage"
+                    [pageSize]="pageSize()"
+                    (next)="onPageChange($event)"
+                    (goTo)="onPageChange($event)"
+                    (previous)="onPageChange($event)"
+                    (changePageSize)="onPageSizeChange($event)"
+                ></app-custom-paginator>
+            </div>
+        }
+    </div>
+</div>
+<p-confirmDialog></p-confirmDialog>
