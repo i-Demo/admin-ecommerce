@@ -3,7 +3,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SelectModule } from 'primeng/select';
 
 interface Language {
@@ -15,7 +15,7 @@ interface Language {
 
 @Component({
     selector: 'app-header',
-    imports: [CommonModule, ButtonModule, FormsModule, TranslateModule, SelectModule],
+    imports: [CommonModule, ButtonModule, FormsModule, TranslateModule, SelectModule, RouterLink],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss',
 })
@@ -33,7 +33,7 @@ export class HeaderComponent {
     selectedLang = signal<Language | null>(null);
     isLightTheme = signal(true);
     // User
-    user = { name: 'John Doe', email: 'john@example.com' };
+    user = { name: 'Vĩ Hồ', email: 'idemo_test@gmail.com' };
     showMenu = signal(false);
 
     private clickListener = (event: MouseEvent) => {

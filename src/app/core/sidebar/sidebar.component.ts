@@ -25,9 +25,9 @@ export class SidebarComponent {
 
     menu: MenuItem[] = [
         { label: 'DASHBOARD', icon: 'pi pi-home', route: '/dashboard' },
-        { label: 'Users', icon: 'pi pi-users', route: '/users' },
-        { label: 'Settings', icon: 'pi pi-cog', route: '/settings' },
-        { label: 'Reports', icon: 'pi pi-chart-line', route: '/reports' },
+        { label: 'PRODUCT', icon: 'pi pi-box', route: '/product' },
+        { label: 'ORDER_MANAGEMENT', icon: 'pi pi-shopping-cart', route: '/orders' },
+        { label: 'SETTING', icon: 'pi pi-cog', route: '/settings' },
     ];
 
     toggleSidebar() {

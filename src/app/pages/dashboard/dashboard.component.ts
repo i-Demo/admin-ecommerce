@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -30,6 +30,11 @@ export class DashboardComponent implements OnInit {
     fromDate: Date | null = null;
     toDate: Date | null = null;
     currentDatepicker: string = 'week';
+    // default preferences table
+    itemsPerPage = signal<number>(10);
+    defaultSortField = 'name';
+    defaultSortOrder = 1;
+
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -40,11 +45,22 @@ export class DashboardComponent implements OnInit {
         this.translate.onLangChange
             .pipe(takeUntil(this.destroy$))
             .subscribe((evt: LangChangeEvent) => {
-                console.log(evt.lang);
-
                 this.primeng.setTranslation(evt.lang === 'vi' ? (localeVi.vi as any) : (localeEn.en as any));
                 this.reTranslateCharts();
             });
+
+        const savedItems = localStorage.getItem('itemsPerPage');
+        if (savedItems) this.itemsPerPage.set(Number(savedItems));
+
+        const savedSort = localStorage.getItem('defaultSort');
+        if (savedSort) {
+            switch (savedSort) {
+                case 'Name Asc': this.defaultSortField = 'name'; this.defaultSortOrder = 1; break;
+                case 'Name Desc': this.defaultSortField = 'name'; this.defaultSortOrder = -1; break;
+                case 'Price Asc': this.defaultSortField = 'revenue'; this.defaultSortOrder = 1; break;
+                case 'Price Desc': this.defaultSortField = 'revenue'; this.defaultSortOrder = -1; break;
+            }
+        }
     }
 
     ngOnInit() {

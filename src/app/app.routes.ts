@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
+import { loginGuard } from './guards/login.guard';
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
@@ -8,6 +9,7 @@ export const routes: Routes = [
     {
         path: '',
         loadComponent: () => import('./layout/auth-layout/auth-layout.component').then(m => m.AuthLayoutComponent),
+        canActivate: [loginGuard],
         children: [
             { path: 'login', loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent) },
             { path: 'register', loadComponent: () => import('./auth/register/register.component').then(m => m.RegisterComponent) },
@@ -21,8 +23,10 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-            // { path: 'tasks', loadComponent: () => import('./pages/task-list/task-list.component').then(m => m.TaskListComponent) },
-            // { path: 'forms', loadComponent: () => import('./pages/forms/forms.component').then(m => m.FormsComponent) },
+            { path: 'product', loadComponent: () => import('./pages/product/product.component').then(m => m.ProductComponent) },
+            { path: 'orders', loadComponent: () => import('./pages/orders/orders.component').then(m => m.OrdersComponent) },
+            { path: 'orders/:id', loadComponent: () => import('./pages/order-detail/order-detail.component').then(m => m.OrderDetailComponent) },
+            { path: 'settings', loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent) },
         ]
     },
 

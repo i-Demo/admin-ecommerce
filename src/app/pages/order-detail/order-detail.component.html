@@ -1,0 +1,103 @@
+<div class="space-y-6 p-6">
+
+  <!-- Skeleton Loading -->
+  <div *ngIf="loading" class="space-y-4">
+    <p-skeleton height="32px" width="48%" class="dark:!bg-gray-700"></p-skeleton>
+    <p-skeleton height="24px" width="100%" class="dark:!bg-gray-700"></p-skeleton>
+    <p-skeleton height="24px" width="100%" class="dark:!bg-gray-700"></p-skeleton>
+    <p-skeleton height="48px" width="100%" class="dark:!bg-gray-700"></p-skeleton>
+  </div>
+
+  <!-- Order Detail -->
+  <div *ngIf="!loading && order" class="space-y-6">
+
+    <!-- Header -->
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ order.orderNo }}</h2>
+        <p class="text-gray-500 dark:text-gray-400">{{ order.date | date:'medium' }}</p>
+      </div>
+      <div class="flex flex-col md:flex-row gap-4">
+        <span class="px-3 py-1 rounded-full text-sm font-semibold"
+              [ngClass]="{
+                'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200': order.status==='Pending',
+                'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-200': order.status==='Processing',
+                'bg-indigo-100 text-indigo-800 dark:bg-indigo-800 dark:text-indigo-200': order.status==='Shipped',
+                'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-200': order.status==='Completed',
+                'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-200': order.status==='Cancelled'
+              }">{{ order.status | translate }}</span>
+        <span class="px-3 py-1 rounded-full text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+          {{ order.paymentStatus }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Customer & Shipping -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-4 space-y-2">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ 'CUSTOMER_INFO' | translate }}</h3>
+        <p>{{ order.customerName }}</p>
+        <p>{{ order.customerEmail }}</p>
+        <p>{{ order.shippingAddress }}</p>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-4 space-y-2">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ 'SHIPPING_INFO' | translate }}</h3>
+        <p>{{ order.shippingMethod }}</p>
+        <p>{{ order.shippingStatus }}</p>
+        <p>{{ order.paymentMethod }}</p>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-4">
+      <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-3">{{ 'ORDER_ITEMS' | translate }}</h3>
+      <table class="min-w-full border-collapse border-spacing-0 text-sm">
+        <thead class="bg-gray-100 dark:bg-gray-700">
+          <tr>
+            <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-300">#</th>
+            <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-300">{{ 'PRODUCT' | translate }}</th>
+            <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-300">{{ 'QUANTITY' | translate }}</th>
+            <th class="px-4 py-2 text-left text-gray-700 dark:text-gray-300">{{ 'PRICE' | translate }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of order.items; let i = index" class="border-b border-gray-200 dark:border-gray-600">
+            <td class="px-4 py-2">{{ i + 1 }}</td>
+            <td class="px-4 py-2">{{ item.name }}</td>
+            <td class="px-4 py-2">{{ item.quantity }}</td>
+            <td class="px-4 py-2">${{ item.price }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Timeline / Activity -->
+    <div class="bg-white dark:bg-gray-800 shadow rounded-xl p-5 space-y-4">
+      <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-3">{{ 'ORDER_ACTIVITY' | translate }}</h3>
+
+      <div *ngIf="order.activity.length > 0" class="relative">
+        <div class="border-l-2 border-gray-200 dark:border-gray-600 absolute h-full left-4 top-0"></div>
+
+        <div *ngFor="let act of order.activity; let i = index" class="flex items-start gap-4 mb-6 last:mb-0 relative">
+          <div class="w-8 h-8 flex items-center justify-center rounded-full border-2 border-gray-200 dark:border-gray-600
+                      bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold text-sm flex-shrink-0"
+               [ngClass]="{'border-indigo-500 dark:border-indigo-300': isCurrentStep(act.status)}">
+            <i [class]="statusIcons[act.status]"></i>
+          </div>
+
+          <div class="flex-1 space-y-1">
+            <p class="text-gray-800 dark:text-gray-100 font-medium">{{ act.status | translate }}</p>
+            <p class="text-gray-500 dark:text-gray-400 text-sm">{{ act.user }} - {{ act.date | date:'medium' }}</p>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">{{ act.comment }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="order.activity.length === 0" class="text-gray-500 dark:text-gray-400 text-center py-4">
+        {{ 'NO_ACTIVITY' | translate }}
+      </div>
+    </div>
+
+  </div>
+</div>
