@@ -83,13 +83,20 @@ export class OrdersComponent {
 
         const savedSort = localStorage.getItem('defaultSort');
         if (savedSort) {
-            switch (savedSort) {
-                case 'Name Asc': this.defaultSortField = 'name'; this.defaultSortOrder = 1; break;
-                case 'Name Desc': this.defaultSortField = 'name'; this.defaultSortOrder = -1; break;
-                case 'Price Asc': this.defaultSortField = 'revenue'; this.defaultSortOrder = 1; break;
-                case 'Price Desc': this.defaultSortField = 'revenue'; this.defaultSortOrder = -1; break;
+            const sortMap: Record<string, { field: string; order: number }> = {
+                'name_asc': { field: 'name', order: 1 },
+                'name_desc': { field: 'name', order: -1 },
+                'price_asc': { field: 'revenue', order: 1 },
+                'price_desc': { field: 'revenue', order: -1 },
+            };
+
+            const sortConfig = sortMap[savedSort];
+            if (sortConfig) {
+                this.defaultSortField = sortConfig.field;
+                this.defaultSortOrder = sortConfig.order;
             }
         }
+
         // Subscribe URL changes
         this.route.queryParams
             .pipe(takeUntilDestroyed(this.destroyRef))

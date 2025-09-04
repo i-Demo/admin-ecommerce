@@ -3,7 +3,7 @@
     <!-- Custom Date Picker -->
     <div class="flex flex-wrap justify-end xl:justify-between items-center gap-3 mb-6">
         <!-- Quick pick buttons -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="grid grid-cols-2 min-[960px]:grid-cols-4 gap-3">
             <button (click)="setToday()" class="btn-quickpick bg-blue-600 hover:bg-blue-700">
                 <i class="pi pi-calendar"></i>
                 {{ 'TODAY' | translate }}
@@ -71,7 +71,7 @@
         </div>
         <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 hover:shadow-2xl transition">
             <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-3">{{ 'ORDER_STATUS' | translate }}</h3>
-            <p-chart type="pie" [data]="orderStatusData" [options]="chartOptions"></p-chart>
+            <p-chart type="pie" [data]="orderStatusData" [options]="orderChartOptions"></p-chart>
         </div>
     </div>
 
@@ -85,22 +85,23 @@
                     <i class="pi pi-search"></i>
                 </span>
                 <input type="text" placeholder="{{ 'SEARCH_PRODUCT' | translate }}" [(ngModel)]="searchProduct"
+                    (ngModelChange)="onSearchChange()"
                     class="pl-10 pr-4 py-2 w-full rounded-full border border-gray-300 dark:border-gray-600
                         bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white  outline-none transition-all duration-200"/>
             </div>
         </div>
 
 
-        <p-table [value]="filteredProducts" [paginator]="true" [rows]="itemsPerPage()" 
-            [sortField]="defaultSortField" [sortOrder]="defaultSortOrder"
-            [responsiveLayout]="'scroll'" scrollable="true" scrollHeight="flex">
+        <p-table #dt [value]="filteredTopProducts" [paginator]="true" [rows]="itemsPerPage()"
+            [sortField]="defaultSortField" [sortOrder]="defaultSortOrder">
+            
             <ng-template pTemplate="header">
                 <tr>
-                    <th>{{ 'NO' | translate }}</th>
-                    <th>{{ 'PRODUCT' | translate }}</th>
-                    <th>{{ 'CATEGORY' | translate }}</th>
-                    <th pSortableColumn="sold">{{ 'SOLD' | translate }} <p-sortIcon field="sold"></p-sortIcon></th>
-                    <th pSortableColumn="revenue">{{ 'REVENUE' | translate }} <p-sortIcon field="revenue"></p-sortIcon></th>
+                    <th class="whitespace-nowrap">{{ 'NO' | translate }}</th>
+                    <th class="whitespace-nowrap">{{ 'PRODUCT' | translate }}</th>
+                    <th class="whitespace-nowrap">{{ 'CATEGORY' | translate }}</th>
+                    <th pSortableColumn="sold" class="whitespace-nowrap">{{ 'SOLD' | translate }} <p-sortIcon field="sold"></p-sortIcon></th>
+                    <th pSortableColumn="revenue" class="whitespace-nowrap">{{ 'REVENUE' | translate }} <p-sortIcon field="revenue"></p-sortIcon></th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-product let-i="rowIndex">

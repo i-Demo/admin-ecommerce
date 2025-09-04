@@ -168,5 +168,6 @@
   "SORT_NAME_ASC": "Name Asc",
   "SORT_NAME_DESC": "Name Desc",
   "SORT_PRICE_ASC": "Price Asc",
-  "SORT_PRICE_DESC": "Price Desc"
+  "SORT_PRICE_DESC": "Price Desc",
+  "ORDERS_UNIT": "orders"
 }

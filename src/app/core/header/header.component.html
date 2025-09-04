@@ -38,12 +38,12 @@
             class="flex justify-center items-center gap-2 px-4 py-2 min-w-[100px] bg-gray-200 dark:bg-gray-700 text-gray-800 
                 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition"
         >
-            @if (isLightTheme()) {
+            @if (isLightTheme) {
                 <i class="pi pi-sun"></i>
             } @else {
                 <i class="pi pi-moon"></i>
             }
-            {{ (isLightTheme() ? 'LIGHT' : 'DARK') | translate }}
+            {{ (isLightTheme ? 'LIGHT' : 'DARK') | translate }}
         </button>
 
         <div class="relative user-menu-container">

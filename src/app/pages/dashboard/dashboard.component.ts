@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
@@ -21,19 +21,25 @@ import localeVi from 'primelocale/vi.json';
     styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+    @ViewChild('dt') table: any;
+
     kpi: { orders: number; revenue: number; customers: number; pending: number } = { orders: 0, revenue: 0, customers: 0, pending: 0 };
     revenueData: any;
     orderStatusData: any;
     chartOptions: any;
+    orderChartOptions: any;
     topProducts: any[] = [];
     searchProduct: string = '';
     fromDate: Date | null = null;
     toDate: Date | null = null;
     currentDatepicker: string = 'week';
+    filteredTopProducts: any[] = [];
     // default preferences table
     itemsPerPage = signal<number>(10);
-    defaultSortField = 'name';
+    defaultSortField = '';
     defaultSortOrder = 1;
+
+    ordersUnit = '';
 
     private destroy$ = new Subject<void>();
 
@@ -47,6 +53,7 @@ export class DashboardComponent implements OnInit {
             .subscribe((evt: LangChangeEvent) => {
                 this.primeng.setTranslation(evt.lang === 'vi' ? (localeVi.vi as any) : (localeEn.en as any));
                 this.reTranslateCharts();
+                this.ordersUnit = this.translate.instant('ORDERS_UNIT');
             });
 
         const savedItems = localStorage.getItem('itemsPerPage');
@@ -54,19 +61,27 @@ export class DashboardComponent implements OnInit {
 
         const savedSort = localStorage.getItem('defaultSort');
         if (savedSort) {
-            switch (savedSort) {
-                case 'Name Asc': this.defaultSortField = 'name'; this.defaultSortOrder = 1; break;
-                case 'Name Desc': this.defaultSortField = 'name'; this.defaultSortOrder = -1; break;
-                case 'Price Asc': this.defaultSortField = 'revenue'; this.defaultSortOrder = 1; break;
-                case 'Price Desc': this.defaultSortField = 'revenue'; this.defaultSortOrder = -1; break;
+            const sortMap: Record<string, { field: string; order: number }> = {
+                'name_asc': { field: 'name', order: 1 },
+                'name_desc': { field: 'name', order: -1 },
+                'price_asc': { field: 'revenue', order: 1 },
+                'price_desc': { field: 'revenue', order: -1 },
+            };
+
+            const sortConfig = sortMap[savedSort];
+            if (sortConfig) {
+                this.defaultSortField = sortConfig.field;
+                this.defaultSortOrder = sortConfig.order;
             }
         }
+
     }
 
     ngOnInit() {
         this.initCharts();
         this.generateTopProducts();
         this.setThisWeek();
+        this.applyFilter();
     }
 
     ngOnDestroy() {
@@ -168,7 +183,59 @@ export class DashboardComponent implements OnInit {
             labels: ['Pending', 'Processing', 'Shipped', 'Delivered'],
             datasets: [{ data: [], backgroundColor: ['#facc15', '#3b82f6', '#10b981', '#8b5cf6'] }]
         };
-        this.chartOptions = { plugins: { legend: { position: 'bottom' } }, maintainAspectRatio: false };
+        this.chartOptions = {
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        label: (context: any) => {
+                            let value = context.raw;
+                            return `$${value.toLocaleString()}`;
+                        }
+                    }
+                }
+            },
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    ticks: {
+                        callback: (value: number) => `$${value}`
+                    }
+                }
+            }
+        };
+
+        this.orderChartOptions = {
+            indexAxis: 'y',
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (context: any) => {
+                            let value = context.raw;
+                            return `${value} ${this.ordersUnit}`;
+                        }
+                    }
+                }
+            },
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 10
+                    },
+                    grid: {
+                        color: 'rgba(200,200,200,0.2)'
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(200,200,200,0.2)'
+                    }
+                }
+            }
+        };
     }
 
     reTranslateCharts() {
@@ -234,10 +301,22 @@ export class DashboardComponent implements OnInit {
             .sort((a, b) => b.revenue - a.revenue);
     }
 
-    get filteredProducts() {
-        const filtered = this.searchProduct
-            ? this.topProducts.filter(p => p.name.toLowerCase().includes(this.searchProduct.toLowerCase()))
-            : this.topProducts;
-        return filtered.sort((a, b) => b.revenue - a.revenue);
+    onSearchChange() {
+        if (this.table) {
+            this.table.first = 0;
+        }
+        this.applyFilter();
+    }
+
+    applyFilter() {
+        let filtered = this.topProducts;
+
+        if (this.searchProduct && this.searchProduct.trim() !== '') {
+            filtered = filtered.filter(p =>
+                p.name.toLowerCase().includes(this.searchProduct.toLowerCase())
+            );
+        }
+
+        this.filteredTopProducts = filtered;
     }
 }

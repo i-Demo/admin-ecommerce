@@ -1,10 +1,11 @@
-import { Component, effect, inject, LOCALE_ID, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router, RouterLink } from '@angular/router';
 import { SelectModule } from 'primeng/select';
+import { ThemeService } from '../services/theme.service';
 
 interface Language {
     code: string;
@@ -24,6 +25,7 @@ export class HeaderComponent {
     private router = inject(Router);
     private tokenKey = 'auth_token';
     private doc = inject(DOCUMENT);
+    private themeService = inject(ThemeService);
 
     langs: Language[] = [
         { label: 'English', value: 'en', code: 'EN', flag: '🇺🇸' },
@@ -31,7 +33,6 @@ export class HeaderComponent {
     ];
 
     selectedLang = signal<Language | null>(null);
-    isLightTheme = signal(true);
     // User
     user = { name: 'Vĩ Hồ', email: 'idemo_test@gmail.com' };
     showMenu = signal(false);
@@ -62,32 +63,18 @@ export class HeaderComponent {
 
         });
 
-        // Theme
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') {
-            this.isLightTheme.set(false);
-        } else {
-            this.isLightTheme.set(true);
-        }
-
-        effect(() => {
-            const light = this.isLightTheme();
-            if (light) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
         // User menu click
         this.doc.addEventListener('click', this.clickListener);
         this.doc.addEventListener('keydown', this.escListener);
     }
 
+
+    get isLightTheme() {
+        return this.themeService.isLightTheme();
+    }
+
     toggleTheme() {
-        this.isLightTheme.set(!this.isLightTheme());
+        this.themeService.toggleTheme();
     }
 
     setLang(lang: Language) {
