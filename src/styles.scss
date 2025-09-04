@@ -117,7 +117,7 @@
     font-size: 14px;
   }
 }
-
+// Menu dark mode
 .p-menu-overlay {
   @apply dark:bg-gray-600 dark:text-white;
 
@@ -158,5 +158,21 @@
 
 .p-menu-item:not(.p-disabled) .p-menu-item-content:hover .p-menu-item-icon {
   @apply dark:text-white;
+}
+
+// Multiselect dark mode
+.p-multiselect.p-multiselect-display-chip {
+  @apply dark:bg-gray-600 dark:text-white;
+
+  .p-component.p-iconwrapper {
+    @apply dark:text-white;
+  }
+
+  .p-multiselect-label {
+    @apply dark:text-gray-300;
+  }
+}
+.p-multiselect.p-focus.p-multiselect-display-chip {
+  border: 1px solid #d1d5db !important;
 }
 
