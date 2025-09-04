@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { MessageService } from 'primeng/api';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SelectModule } from 'primeng/select';
+import { ThemeService } from '../../core/services/theme.service';
 
 @Component({
     selector: 'app-settings',
@@ -17,6 +18,7 @@ import { SelectModule } from 'primeng/select';
 export class SettingsComponent {
     private translate = inject(TranslateService);
     private messageService = inject(MessageService);
+    private themeService = inject(ThemeService);
     // Current tab
     activeTab: string = 'account';
 
@@ -43,18 +45,7 @@ export class SettingsComponent {
         { label: 'SORT_PRICE_DESC', value: 'price_desc' }
     ];
 
-    // Theme & Layout
-    isLightTheme = signal(true);
-    compactMode: boolean = false;
-
     constructor() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'dark') {
-            this.isLightTheme.set(false);
-        } else {
-            this.isLightTheme.set(true);
-        }
-
         const savedItems = localStorage.getItem('itemsPerPage');
         if (savedItems) this.itemsPerPage.set(Number(savedItems));
 
@@ -66,17 +57,6 @@ export class SettingsComponent {
         }
 
         effect(() => {
-            const light = this.isLightTheme();
-            if (light) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('theme', 'dark');
-            }
-        });
-
-        effect(() => {
             localStorage.setItem('itemsPerPage', this.itemsPerPage().toString());
         });
 
@@ -85,23 +65,8 @@ export class SettingsComponent {
         });
     }
 
-    saveSettings() {
-        const settings = {
-            twoFAEnabled: this.twoFAEnabled,
-            itemsPerPage: this.itemsPerPage,
-            defaultSort: this.defaultSort,
-            compactMode: this.compactMode,
-        };
-        localStorage.setItem('userSettings', JSON.stringify(settings));
-        alert('Settings saved!');
-    }
-
-    loadSettings() {
-        const saved = localStorage.getItem('userSettings');
-        if (saved) {
-            const settings = JSON.parse(saved);
-            Object.assign(this, settings);
-        }
+    get isLightTheme() {
+        return this.themeService.isLightTheme();
     }
 
     updatePassword() {
@@ -132,6 +97,6 @@ export class SettingsComponent {
     }
 
     toggleTheme() {
-        this.isLightTheme.set(!this.isLightTheme());
+        this.themeService.toggleTheme();
     }
 }

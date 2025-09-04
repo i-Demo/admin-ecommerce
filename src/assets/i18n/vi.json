@@ -51,7 +51,7 @@
   "SHOP_NAME": "Tên cửa hàng",
   "SELLER_ID": "Mã người bán",
   "ACTION": "Hành động",
-  "ITEMS_PER_PAGE": "Số mục trên mỗi trang",
+  "ITEMS_PER_PAGE": "Số mục trên trang",
   "BLOCK": "chặn",
   "UNBLOCK": "mở chặn",
   "DELETE": "xóa",
@@ -167,5 +167,6 @@
   "SORT_NAME_ASC": "Tên A → Z",
   "SORT_NAME_DESC": "Tên Z → A",
   "SORT_PRICE_ASC": "Giá tăng dần",
-  "SORT_PRICE_DESC": "Giá giảm dần"
+  "SORT_PRICE_DESC": "Giá giảm dần",
+  "ORDERS_UNIT": "đơn hàng"
 }
