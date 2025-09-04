@@ -29,6 +29,8 @@ Clone repo:
 ```bash
 git clone https://github.com/your-username/ng-demo.git
 cd ng-demo
+
 Cài đặt dependencies:
 npm install
 ng serve
+
