@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, LOCALE_ID, signal } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
@@ -56,8 +56,10 @@ export class HeaderComponent {
         effect(() => {
             const lang = this.selectedLang();
             if (!lang) return;
+
             localStorage.setItem('lang', lang.value);
             this.translate.use(lang.value);
+
         });
 
         // Theme

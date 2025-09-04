@@ -27,8 +27,8 @@
 
         <ng-template #statsSkeleton>
             <div *ngFor="let s of [1,2,3,4]" class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow dark:shadow-gray-700">
-                <p-skeleton height="20px" width="60%" styleClass="mb-2"></p-skeleton>
-                <p-skeleton height="32px" width="40%"></p-skeleton>
+                <p-skeleton height="20px" width="60%" styleClass="!rounded-lg dark:!bg-gray-700 mb-2"></p-skeleton>
+                <p-skeleton height="32px" width="40%" styleClass="!rounded-lg dark:!bg-gray-700"></p-skeleton>
             </div>
         </ng-template>
     </div>
@@ -50,60 +50,75 @@
             </div>
 
             <!-- In Stock Filter -->
-            <div class="flex-1 flex gap-2 items-center w-full xl:w-fit">
-                <label class="max-xl:min-w-[68px] text-gray-600 dark:text-gray-300 font-semibold whitespace-nowrap">{{ 'IN_STOCK' | translate}}:</label>
-                <input 
-                    type="number" 
-                    placeholder="{{ 'MIN_STOCK' | translate }}" 
-                    [(ngModel)]="filterStockMin"
-                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
-                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
-                    [ngClass]="{
-                        'border-gray-300 dark:border-gray-600': !filterStockMin || (filterStockMin && filterStockMin >=0),
-                        'border-red-500': (filterStockMin && filterStockMin < 0)
-                    }"
-                />
-                <span class="text-gray-600 dark:text-gray-300 font-semibold">-</span>
-                <input 
-                    type="number" 
-                    placeholder="{{ 'MAX_STOCK' | translate }}" 
-                    [(ngModel)]="filterStockMax"
-                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
-                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
-                    [ngClass]="{
-                        'border-gray-300 dark:border-gray-600': !filterStockMax || (filterStockMax && filterStockMax >=0),
-                        'border-red-500': (filterStockMax && filterStockMax < 0)
-                    }"
-                />
+            <div class="flex-1 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center w-full xl:w-fit">
+                <label class="max-xl:min-w-[68px] text-gray-600 dark:text-gray-300 font-semibold whitespace-nowrap">
+                    {{ 'IN_STOCK' | translate }}:
+                </label>
+
+                <div class="flex flex-col sm:flex-row gap-2 flex-1">
+                    <input 
+                        type="number" 
+                        placeholder="{{ 'MIN_STOCK' | translate }}" 
+                        [(ngModel)]="filterStockMin"
+                        class="flex-1 sm:w-[140px] xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border dark:border-gray-600
+                            dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                        [ngClass]="{
+                            'border-gray-300 dark:border-gray-600': !filterStockMin || (filterStockMin && filterStockMin >= 0),
+                            'border-red-500': (filterStockMin && filterStockMin < 0)
+                        }"
+                    />
+
+                    <span class="hidden sm:flex items-center justify-center font-semibold text-gray-600 dark:text-gray-300">-</span>
+
+                    <input 
+                        type="number" 
+                        placeholder="{{ 'MAX_STOCK' | translate }}" 
+                        [(ngModel)]="filterStockMax"
+                        class="flex-1 sm:w-[140px] xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border dark:border-gray-600
+                            dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                        [ngClass]="{
+                            'border-gray-300 dark:border-gray-600': !filterStockMax || (filterStockMax && filterStockMax >= 0),
+                            'border-red-500': (filterStockMax && filterStockMax < 0)
+                        }"
+                    />
+                </div>
             </div>
 
             <!-- Price Filter -->
-            <div class="flex-1 flex gap-2 items-center w-full xl:w-fit">
-                <label class="max-xl:min-w-[68px] text-gray-600 dark:text-gray-300 font-semibold">{{ 'PRICE' | translate}}:</label>
-                <input 
-                    type="number" 
-                    placeholder="{{ 'MIN_PRICE' | translate }}" 
-                    [(ngModel)]="filterPriceMin"
-                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
-                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
-                    [ngClass]="{
-                        'border-gray-300 dark:border-gray-600': !filterPriceMin || (filterPriceMin && filterPriceMin >=0),
-                        'border-red-500': (filterPriceMin && filterPriceMin < 0)
-                    }"
-                />
-                <span class="text-gray-600 dark:text-gray-300 font-semibold">-</span>
-                <input 
-                    type="number" 
-                    placeholder="{{ 'MAX_PRICE' | translate }}" 
-                    [(ngModel)]="filterPriceMax"
-                    class="flex-1 xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600
-                        dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
-                    [ngClass]="{
-                        'border-gray-300 dark:border-gray-600': !filterPriceMax || (filterPriceMax && filterPriceMax >=0),
-                        'border-red-500': (filterPriceMax && filterPriceMax < 0)
-                    }"
-                />
+            <div class="flex-1 flex flex-col sm:flex-row gap-2 items-stretch sm:items-center w-full xl:w-fit">
+                <label class="max-xl:min-w-[68px] text-gray-600 dark:text-gray-300 font-semibold whitespace-nowrap">
+                    {{ 'PRICE' | translate }}:
+                </label>
+
+                <div class="flex flex-col sm:flex-row gap-2 flex-1">
+                    <input 
+                        type="number" 
+                        placeholder="{{ 'MIN_PRICE' | translate }}" 
+                        [(ngModel)]="filterPriceMin"
+                        class="flex-1 sm:w-[140px] xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border dark:border-gray-600
+                            dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                        [ngClass]="{
+                            'border-gray-300 dark:border-gray-600': !filterPriceMin || (filterPriceMin && filterPriceMin >= 0),
+                            'border-red-500': (filterPriceMin && filterPriceMin < 0)
+                        }"
+                    />
+
+                    <span class="hidden sm:flex items-center justify-center font-semibold text-gray-600 dark:text-gray-300">-</span>
+
+                    <input 
+                        type="number" 
+                        placeholder="{{ 'MAX_PRICE' | translate }}" 
+                        [(ngModel)]="filterPriceMax"
+                        class="flex-1 sm:w-[140px] xl:w-[160px] 2xl:flex-1 px-3 py-2 rounded-lg border dark:border-gray-600
+                            dark:bg-gray-700 text-gray-800 dark:text-white outline-none transition-all duration-200"
+                        [ngClass]="{
+                            'border-gray-300 dark:border-gray-600': !filterPriceMax || (filterPriceMax && filterPriceMax >= 0),
+                            'border-red-500': (filterPriceMax && filterPriceMax < 0)
+                        }"
+                    />
+                </div>
             </div>
+
 
         </div>
 
@@ -174,7 +189,7 @@
                                     <div class="flex items-center gap-2">
                                         <div class="text-xs text-gray-500 dark:text-gray-400">{{ product.category }}</div>
                                         <span 
-                                            class="text-xs font-semibold px-2 py-0.5 rounded-full"
+                                            class="text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap"
                                             [ngClass]="product.status === 'Active' 
                                             ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100' 
                                             : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'">
@@ -203,8 +218,7 @@
                         <tr class="border-b border-gray-200 dark:border-gray-700">
                             @for (col of [1,2,3,4,5,6,7,8]; track $index) {
                                 <td class="px-4 py-[18px]">
-                                    <p-skeleton height="28px" width="100%">
-                                    </p-skeleton>
+                                    <p-skeleton height="28px" width="100%" styleClass="!rounded-lg dark:!bg-gray-700"></p-skeleton>
                                 </td>
                             }
                         </tr>

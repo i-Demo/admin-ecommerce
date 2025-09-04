@@ -8,7 +8,13 @@ import { providePrimeNG } from 'primeng/config';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import Aura from '@primeuix/themes/aura';
 import { MessageService } from 'primeng/api';
-import localeEn from 'primelocale/en.json';
+import localeEnPrime from 'primelocale/en.json';
+import localeEn from '@angular/common/locales/en';
+import localeVi from '@angular/common/locales/vi';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEn, 'en');
+registerLocaleData(localeVi, 'vi');
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -25,7 +31,7 @@ export const appConfig: ApplicationConfig = {
         provideAnimationsAsync(),
         MessageService,
         providePrimeNG({
-            translation: localeEn.en,
+            translation: localeEnPrime.en,
             theme: {
                 preset: Aura,
             },

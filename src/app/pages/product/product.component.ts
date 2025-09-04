@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -21,7 +20,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 @Component({
     selector: 'app-product',
     standalone: true,
-    imports: [CommonModule, FormsModule, TableModule, ButtonModule, SkeletonModule, MultiSelectModule, TranslateModule, ProgressSpinnerModule,
+    imports: [CommonModule, FormsModule, TableModule, ButtonModule, SkeletonModule, TranslateModule, ProgressSpinnerModule,
         InputGroupModule, InputNumberModule, CustomPaginatorComponent, MenuModule, ConfirmDialogModule],
     templateUrl: './product.component.html',
     styleUrls: ['./product.component.scss'],

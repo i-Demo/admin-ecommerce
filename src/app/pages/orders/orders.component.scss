@@ -1,0 +1,12 @@
+/* Dark mode cho panel dropdown của PrimeNG */
+:root .p-multiselect-panel {
+  @apply bg-white text-gray-900;
+}
+
+.dark .p-multiselect.p-multiselect-display-chip {
+  @apply bg-gray-800 text-gray-200 border border-gray-600;
+}
+
+.dark .p-multiselect-panel .p-multiselect-item {
+  @apply hover:bg-gray-700;
+}
