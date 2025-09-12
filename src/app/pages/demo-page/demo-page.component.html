@@ -1,0 +1,30 @@
+<div class="p-4">
+  <h2>{{ "DEMO_PAGE" | translate }}</h2>
+
+  <input
+    type="text"
+    [(ngModel)]="searchTerm"
+    placeholder="Search..."
+    class="p-2 border mb-2 w-full"
+  />
+
+  <button
+    pButton
+    type="button"
+    label="Toggle Theme"
+    (click)="toggleTheme()"
+  ></button>
+  <button pButton type="button" label="Logout" (click)="logout()"></button>
+
+  <ul>
+    <li *ngFor="let item of filteredItems()">
+      {{ item.name }} - {{ item.status }}
+    </li>
+  </ul>
+
+  <div class="mt-2">
+    <button pButton type="button" label="Prev" (click)="prevPage()"></button>
+    <span>Page {{ currentPage }}/{{ totalPages }}</span>
+    <button pButton type="button" label="Next" (click)="nextPage()"></button>
+  </div>
+</div>

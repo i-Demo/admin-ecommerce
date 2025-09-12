@@ -8,16 +8,17 @@ import { MessageService } from 'primeng/api';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SelectModule } from 'primeng/select';
 import { ThemeService } from '../../core/services/theme.service';
+import { MessageToggleModule, RbnMessageService } from 'rbn-common-lib';
 
 @Component({
     selector: 'app-settings',
-    standalone: true,
-    imports: [CommonModule, FormsModule, ButtonModule, ToggleButtonModule, CheckboxModule, TranslateModule, SelectModule],
+    imports: [CommonModule, FormsModule, ButtonModule, ToggleButtonModule, CheckboxModule, TranslateModule, SelectModule, MessageToggleModule],
     templateUrl: './settings.component.html',
 })
 export class SettingsComponent {
     private translate = inject(TranslateService);
     private messageService = inject(MessageService);
+    private messageServiceRB = inject(RbnMessageService);
     private themeService = inject(ThemeService);
     // Current tab
     activeTab: string = 'account';
@@ -71,29 +72,22 @@ export class SettingsComponent {
 
     updatePassword() {
         if (!this.newPassword || !this.confirmPassword) {
-            this.messageService.add({
-                severity: 'warn',
-                summary: this.translate.instant('PASSWORD.WARNING'),
-                detail: this.translate.instant('PASSWORD.FILL_FIELDS')
-            });
+            this.messageServiceRB.showWarn(this.translate.instant('PASSWORD.FILL_FIELDS'), this.translate.instant('PASSWORD.WARNING'));
             return;
         }
 
         if (this.newPassword !== this.confirmPassword) {
-            this.messageService.add({
-                severity: 'error',
+            this.messageServiceRB.showErrorMessage(this.translate.instant('PASSWORD.MISMATCH'), {
                 summary: this.translate.instant('PASSWORD.ERROR'),
-                detail: this.translate.instant('PASSWORD.MISMATCH')
+                sticky: false,
+                life: 3000,
+                closable: true,
             });
             return;
         }
 
         // Call API update password
-        this.messageService.add({
-            severity: 'success',
-            summary: this.translate.instant('PASSWORD.SUCCESS'),
-            detail: this.translate.instant('PASSWORD.UPDATED')
-        });
+        this.messageServiceRB.showSuccess(this.translate.instant('PASSWORD.UPDATED'), this.translate.instant('PASSWORD.SUCCESS'));
     }
 
     toggleTheme() {

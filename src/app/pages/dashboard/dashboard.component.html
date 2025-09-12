@@ -22,13 +22,24 @@
             </button>
         </div>
         <!-- Manual date pick -->
-        <div class="flex gap-2 items-center justify-end dark-datepicker">
+        <div class="date-picker-cs">
+            <rbn-daterangepicker
+                #dateRangePicker
+                [showTime]="false"
+                [fromDate]="fromDate"
+                [toDate]="toDate"
+                [disabledTimePicker]="false"
+                (dateRangeEmitter)="onDateRangeSelected($event)">
+            </rbn-daterangepicker>
+        </div>
+
+        <!-- <div class="flex gap-2 items-center justify-end dark-datepicker">
             <p-datepicker [(ngModel)]="fromDate" [maxDate]="toDate" placeholder="Start Date"
                         [readonlyInput]="true" (onSelect)="onSelectDateRange()" appendTo="body"></p-datepicker>
             <span class="mx-2">→</span>
             <p-datepicker [(ngModel)]="toDate" [minDate]="fromDate" placeholder="End Date"
                         [readonlyInput]="true" (onSelect)="onSelectDateRange()" appendTo="body"></p-datepicker>
-        </div>
+        </div> -->
     </div>
 
     <!-- KPI Cards -->
@@ -121,5 +132,29 @@
                 </tr>
             </ng-template>
         </p-table>
+    </div>
+
+    <!-- Dynamic form -->
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 hover:shadow-2xl transition mt-6 form-cs">
+        <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-3">{{ 'DYNAMIC_FORM' | translate }}</h3>
+
+        <dynamic-form
+            [form]="form"
+            [model]="model"
+            [options]="options"
+            [fields]="fields">
+        </dynamic-form>
+    
+        <button pButton type="submit" [disabled]="!form.valid" (click)="submit()" class="!bg-[#a50351] border !border-[#a50351]">Submit</button>
+    </div>
+
+    <!-- Rbn-table -->
+    <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl p-5 hover:shadow-2xl transition mt-6">
+        <rbn-table
+          [cols]="cols"
+          [data]="data"
+          [tableConfig]="tableConfig"
+          (switchChange)="onSwitchChange($event)"
+        ></rbn-table>
     </div>
 </div>

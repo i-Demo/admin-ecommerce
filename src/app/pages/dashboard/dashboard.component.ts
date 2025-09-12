@@ -1,5 +1,5 @@
 import { Component, OnInit, signal, ViewChild } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TableModule } from 'primeng/table';
@@ -13,14 +13,18 @@ import { Subject, takeUntil } from 'rxjs';
 import { PrimeNG } from 'primeng/config';
 import localeEn from 'primelocale/en.json';
 import localeVi from 'primelocale/vi.json';
+import { ColumnHidingMode, DateRangePickerComponent, DaterangepickerModule, ExpandDataMode, ExpandDisplayType, FieldName, ITableConfig, PageTopModule, PaginatorMode, RbnCommonTableModule, RbnDynamicFormsModule } from 'rbn-common-lib';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
     selector: 'app-dashboard',
-    imports: [FormsModule, ButtonModule, CardModule, TableModule, ChartModule, ToastModule, RippleModule, DatePickerModule, TranslateModule],
+    imports: [FormsModule, ButtonModule, CardModule, TableModule, ChartModule, ToastModule,
+        RippleModule, DatePickerModule, TranslateModule, PageTopModule, DaterangepickerModule, RbnDynamicFormsModule, RbnCommonTableModule],
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+    @ViewChild('dateRangePicker') dateRangePicker!: DateRangePickerComponent;
     @ViewChild('dt') table: any;
 
     kpi: { orders: number; revenue: number; customers: number; pending: number } = { orders: 0, revenue: 0, customers: 0, pending: 0 };
@@ -30,16 +34,55 @@ export class DashboardComponent implements OnInit {
     orderChartOptions: any;
     topProducts: any[] = [];
     searchProduct: string = '';
-    fromDate: Date | null = null;
-    toDate: Date | null = null;
+    fromDate: Date = new Date();
+    toDate: Date = new Date();
     currentDatepicker: string = 'week';
     filteredTopProducts: any[] = [];
     // default preferences table
     itemsPerPage = signal<number>(10);
     defaultSortField = '';
     defaultSortOrder = 1;
-
     ordersUnit = '';
+    // rbn-common
+    initialFrom = new Date(2024, 0, 1);
+    initialTo = new Date(2024, 0, 31);
+
+    // dynamic form
+    form = new FormGroup({});
+    model: any = {};
+    options = {};
+    fields: FormlyFieldConfig[] = [];
+    // rbn-table
+    // Cấu hình cột
+    cols = [
+        { field: FieldName.Checkbox, header: '', sort: false, data: [], colsEnable: true },
+        { field: 'brand', header: 'Brand', sort: true, data: [], colsEnable: true },
+        { field: 'year', header: 'Year', sort: true, data: [], colsEnable: true },
+        { field: 'color', header: 'Color', sort: true, data: [], colsEnable: true },
+        { field: 'seller', header: 'Seller', sort: false, data: [], colsEnable: true, options: { usingInputSwitch: true } },
+        { field: FieldName.Action, header: 'Action', sort: false, data: [], colsEnable: true }
+    ];
+
+    // Mock dữ liệu
+    data = [
+        { brand: 'VW', year: 2012, color: 'Orange', seller: true },
+        { brand: 'Audi', year: 2015, color: 'Black', seller: false },
+        { brand: 'BMW', year: 2020, color: 'Blue', seller: true },
+    ];
+
+    // Cấu hình table
+    tableConfig: ITableConfig = {
+        tableName: 'demoTable',
+        paginatorMode: PaginatorMode.Client,
+        numberRowPerPage: 5,
+        rowsPerPageOptions: [5, 10, 20],
+        columnHidingMode: ColumnHidingMode.Simple,
+        expandDataMode: ExpandDataMode.Client,
+        expandDisplayType: ExpandDisplayType.TabView,
+        enableSearchGlobal: true,
+        enableFilter: true,
+        selectedRows: []
+    };
 
     private destroy$ = new Subject<void>();
 
@@ -82,6 +125,7 @@ export class DashboardComponent implements OnInit {
         this.generateTopProducts();
         this.setThisWeek();
         this.applyFilter();
+        this.initForm();
     }
 
     ngOnDestroy() {
@@ -133,6 +177,10 @@ export class DashboardComponent implements OnInit {
 
     applyDateRange() {
         if (!this.fromDate || !this.toDate) return;
+        if (this.dateRangePicker) {
+            this.dateRangePicker.pFromDate = this.fromDate; 
+            this.dateRangePicker.pToDate = this.toDate;
+        }
 
         const from = new Date(this.fromDate);
         const to = new Date(this.toDate);
@@ -318,5 +366,101 @@ export class DashboardComponent implements OnInit {
         }
 
         this.filteredTopProducts = filtered;
+    }
+
+    onDateRangeSelected(event: any) {
+        console.log(event);
+        this.fromDate = new Date(event.from);
+        this.toDate = new Date(event.to);
+
+        console.log('From:', this.fromDate);
+        console.log('To:', this.toDate);
+    }
+
+    initForm() {
+        const col = 'col-12 md:col-6';
+
+        this.fields = [
+            {
+                fieldGroupClassName: 'grid gap-[6px] grid-cols-2',
+                fieldGroup: [
+                    {
+                        key: 'username',
+                        type: 'rbn-input',
+                        props: {
+                            label: 'Username',
+                            required: true,
+                            placeholder: 'Enter username',
+                            description: 'The system username required to connect to the LDAP server.'
+                        },
+                        className: col
+                    },
+                    {
+                        key: 'password',
+                        type: 'rbn-input',
+                        props: {
+                            type: 'password',
+                            label: 'Password',
+                            required: true,
+                            placeholder: 'Enter password',
+                            description: 'The system password required to connect to the LDAP server.'
+                        },
+                        className: col
+                    },
+                    {
+                        key: 'email',
+                        type: 'rbn-input',
+                        props: {
+                            type: 'email',
+                            label: 'Email',
+                            required: true,
+                            placeholder: 'Enter email address'
+                        },
+                        className: col
+                    },
+                    {
+                        key: 'gender',
+                        type: 'rbn-singleselect',
+                        props: {
+                            label: 'Gender',
+                            required: true,
+                            options: [
+                                { label: 'Male', value: 'M' },
+                                { label: 'Female', value: 'F' },
+                                { label: 'Other', value: 'O' }
+                            ],
+                            placeholder: 'Select gender'
+                        },
+                        className: col
+                    },
+                    {
+                        key: 'isActive',
+                        type: 'rbn-switch',
+                        props: {
+                            label: 'Active account',
+                            description: 'The flag for LDAP to ignore partial result exception.'
+                        },
+                        defaultValue: true,
+                        className: 'col-span-2'
+                    },
+                ]
+            }
+
+        ];
+
+    }
+
+    submit() {
+        if (this.form.valid) {
+            console.log('Form value:', this.model);
+            console.log('Form value:', this.form);
+            // call API
+        } else {
+            console.log('Form invalid');
+        }
+    }
+
+    onSwitchChange(event: any) {
+        console.log('Switch changed:', event);
     }
 }

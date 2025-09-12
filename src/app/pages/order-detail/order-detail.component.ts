@@ -191,7 +191,7 @@ export class OrderDetailComponent {
 
     goBack() {
         const params = this.route.snapshot.queryParams;
-        this.router.navigate(['/orders'], { queryParams: params });
+        this.router.navigate(['management/orders'], { queryParams: params });
     }
 
     formatDate(date: Date) {

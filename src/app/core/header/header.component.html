@@ -1,11 +1,9 @@
 <header class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700 w-full z-50">
     <!-- Logo -->
     <div class="flex items-center gap-4">
-        <a [routerLink]="'/dashboard'" class="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600
-            text-white flex items-center justify-center font-bold text-xl shadow-lg">
-            iD
+        <a [routerLink]="'/dashboard'" class="logo">
+            <rbn-headerlogo [productName]="'iDemo'" [productNameSup]="'o'" [noneUppercase]="false"></rbn-headerlogo>
         </a>
-        <span class="text-xl font-bold text-gray-800 dark:text-white">i Demo</span>
     </div>
 
     <!-- Actions -->
@@ -67,6 +65,11 @@
                     <span class="font-medium">{{ 'LOGOUT' | translate }}</span>
                 </button>
             </div>
+
         </div>
     </div>
 </header>
+<rbn-confirm-dialog [title]="'CONFIRMATION' | translate"
+    [content]="'DO_YOU_WANT_TO_LOGOUT' | translate"
+    [titleAccept]="'YES_LOGOUT' | translate" [titleReject]="'CANCEL' | translate"
+    (emitConfirm)="confirmLogout($event)" [isShowConfirmDialog]="isShowConfirmDialog"></rbn-confirm-dialog>

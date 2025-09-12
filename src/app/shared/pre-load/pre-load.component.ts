@@ -1,15 +1,16 @@
 import { Component, signal } from '@angular/core';
+import { DialogLoaderModule } from 'rbn-common-lib';
 
 @Component({
     selector: 'app-pre-load',
-    imports: [],
+    imports: [DialogLoaderModule],
     templateUrl: './pre-load.component.html',
     styleUrl: './pre-load.component.scss'
 })
 export class PreLoadComponent {
-    show = signal(true); // bật loader mặc định
+    show = signal(true); // Show loader default
 
     hide() {
-        this.show.set(false); // gọi khi muốn ẩn
+        this.show.set(false); 
     }
 }

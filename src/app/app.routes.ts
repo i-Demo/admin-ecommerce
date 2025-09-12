@@ -23,10 +23,11 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: 'dashboard', loadComponent: () => import('./pages/dashboard/dashboard.component').then(m => m.DashboardComponent) },
-            { path: 'product', loadComponent: () => import('./pages/product/product.component').then(m => m.ProductComponent) },
-            { path: 'orders', loadComponent: () => import('./pages/orders/orders.component').then(m => m.OrdersComponent) },
-            { path: 'orders/:id', loadComponent: () => import('./pages/order-detail/order-detail.component').then(m => m.OrderDetailComponent) },
+            { path: 'management/product', loadComponent: () => import('./pages/product/product.component').then(m => m.ProductComponent) },
+            { path: 'management/orders', loadComponent: () => import('./pages/orders/orders.component').then(m => m.OrdersComponent) },
+            { path: 'management/orders/:id', loadComponent: () => import('./pages/order-detail/order-detail.component').then(m => m.OrderDetailComponent) },
             { path: 'settings', loadComponent: () => import('./pages/settings/settings.component').then(m => m.SettingsComponent) },
+            { path: 'demo', loadComponent: () => import('./pages/demo-page/demo-page.component').then(m => m.DemoPageComponent) },
         ]
     },
 
