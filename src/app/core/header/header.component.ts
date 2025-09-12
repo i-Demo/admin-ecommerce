@@ -1,10 +1,11 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, effect, signal, ViewEncapsulation } from '@angular/core';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Router, RouterLink } from '@angular/router';
 import { SelectModule } from 'primeng/select';
+import { ConfirmDialogModule, HeaderlogoModule } from 'rbn-common-lib';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../services/theme.service';
 
 interface Language {
@@ -16,40 +17,27 @@ interface Language {
 
 @Component({
     selector: 'app-header',
-    imports: [CommonModule, ButtonModule, FormsModule, TranslateModule, SelectModule, RouterLink],
+    standalone: true,
+    imports: [CommonModule, ButtonModule, FormsModule, TranslateModule, SelectModule, RouterLink, HeaderlogoModule, ConfirmDialogModule],
     templateUrl: './header.component.html',
-    styleUrl: './header.component.scss',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
     private translate = inject(TranslateService);
     private router = inject(Router);
-    private tokenKey = 'auth_token';
-    private doc = inject(DOCUMENT);
     private themeService = inject(ThemeService);
+    private doc = inject(DOCUMENT);
 
     langs: Language[] = [
         { label: 'English', value: 'en', code: 'EN', flag: '🇺🇸' },
         { label: 'Vietnamese', value: 'vi', code: 'VI', flag: '🇻🇳' },
     ];
-
     selectedLang = signal<Language | null>(null);
-    // User
     user = { name: 'Vĩ Hồ', email: 'idemo_test@gmail.com' };
     showMenu = signal(false);
-
-    private clickListener = (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
-        if (!target.closest('.user-menu-container')) {
-            this.showMenu.set(false);
-        }
-    };
-
-    private escListener = (event: KeyboardEvent) => {
-        if (event.key === 'Escape') this.showMenu.set(false);
-    };
+    isShowConfirmDialog = false;
 
     constructor() {
-        // Lang
         const langValue = localStorage.getItem('lang');
         const lang = this.langs.find(l => l.value === langValue) || this.langs[0];
         this.selectedLang.set(lang);
@@ -57,17 +45,22 @@ export class HeaderComponent {
         effect(() => {
             const lang = this.selectedLang();
             if (!lang) return;
-
             localStorage.setItem('lang', lang.value);
             this.translate.use(lang.value);
-
         });
 
-        // User menu click
         this.doc.addEventListener('click', this.clickListener);
         this.doc.addEventListener('keydown', this.escListener);
     }
 
+    private clickListener = (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        if (!target.closest('.user-menu-container')) this.showMenu.set(false);
+    };
+
+    private escListener = (event: KeyboardEvent) => {
+        if (event.key === 'Escape') this.showMenu.set(false);
+    };
 
     get isLightTheme() {
         return this.themeService.isLightTheme();
@@ -81,14 +74,25 @@ export class HeaderComponent {
         this.selectedLang.set(lang);
     }
 
-    logout() {
-        localStorage.removeItem(this.tokenKey);
-        this.router.navigate(['/login']);
-    }
-
-    // Avatar menu
     toggleMenu() {
         this.showMenu.set(!this.showMenu());
+    }
+
+    logout() {
+        this.isShowConfirmDialog = true;
+    }
+
+    cancelLogout() {
+        this.isShowConfirmDialog = false;
+    }
+
+    confirmLogout(event: boolean) {
+        if (event) {
+            localStorage.removeItem('auth_token');
+            this.router.navigate(['/login']);
+        } else {
+            this.isShowConfirmDialog = false;
+        }
     }
 
     get userInitials() {

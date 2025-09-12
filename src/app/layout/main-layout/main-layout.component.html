@@ -1,11 +1,24 @@
 <div class="flex flex-col h-screen bg-gray-100 dark:bg-gray-900 min-w-[640px]">
-    <app-header></app-header>
+    <!-- <app-header></app-header> -->
 
-    <div class="flex flex-1 overflow-hidden">
+    <!-- <div class="flex flex-1 overflow-hidden">
         <app-sidebar [open]="sidebarOpen" (toggle)="toggleSidebar()"></app-sidebar>
 
         <main class="flex-1 p-6 text-gray-900 dark:text-white overflow-y-auto">
             <router-outlet></router-outlet>
         </main>
+    </div> -->
+
+    <header class="layout-header">
+    </header>
+
+    <div class="layout-body">
+        <app-sidebar (toggle)="toggleSidebar($event)"></app-sidebar>
+        <div class="flex flex-col fixed top-0 right-0 bottom-0 {{isCollapse ? 'left-[60px]' : 'left-[290px]'}}">
+            <app-header></app-header>
+            <main class="flex-1 p-6 text-gray-900 dark:text-white overflow-y-auto">
+                <router-outlet></router-outlet>
+            </main>
+        </div>
     </div>
 </div>

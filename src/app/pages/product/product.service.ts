@@ -38,7 +38,7 @@ export class ProductService {
                 inStock: Math.floor(Math.random() * 200),
                 sold: Math.floor(Math.random() * 50),
                 price: Math.floor(Math.random() * 500) + 10,
-                status: Math.random() > 0.5 ? 'Active' : 'Inactive',
+                status: Math.random() > 0.5 ? 'active' : 'inactive',
                 category,
                 imageUrl
             });
@@ -55,7 +55,8 @@ export class ProductService {
         minStock?: number | null,
         maxStock?: number | null,
         minPrice?: number | null,
-        maxPrice?: number | null
+        maxPrice?: number | null,
+        status?: 'active' | 'inactive' | null
     ): Observable<{ total: number; data: Product[] }> {
         return this.products$.asObservable().pipe(
             delay(500),
@@ -81,6 +82,10 @@ export class ProductService {
                 }
                 if (maxPrice) {
                     filtered = filtered.filter(p => p.price <= maxPrice);
+                }
+
+                if (status) {
+                    filtered = filtered.filter(p => p.status === status);
                 }
 
                 const total = filtered.length;

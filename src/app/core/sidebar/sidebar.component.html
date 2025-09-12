@@ -1,4 +1,14 @@
-<aside 
+<div class="sidebar-cs">
+    <rbn-sidebar [menuItems]="menuItems"
+        [useFavorites]="useFavorites" [useSearch]="useSearch" [allowSearchTopLevel]="true"
+        [useConfigurationMode]="useConfigurationMode" [noneUppercaseParentLabel]="true" 
+        (toggleMenu)="handleToggleMenu($event)"
+        (favoriteChanged)="favoriteChanged($event)" 
+        (noChildClicked)="noChildClicked($event)">
+    </rbn-sidebar>
+</div>
+
+<!-- <aside 
     [class.w-64]="open && !isMobile" 
     [class.w-16]="!open || isMobile"
     class="bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg h-full transition-[width] duration-300 relative z-40">
@@ -30,4 +40,4 @@
             </a>
         }
     </nav>
-</aside>
+</aside> -->

@@ -113,7 +113,14 @@
       "IN_TRANSIT": "Package is in transit",
       "OUT_FOR_DELIVERY": "Courier is delivering the package",
       "COMPLETED": "Order delivered successfully"
-    }
+    },
+    "MANAGEMENT": "Order Management",
+    "DESCRIPTION": "This page allows you to manage product",
+    "TITLE": "Orders",
+    "LIST": "Order List",
+    "ADD": "Add Order",
+    "EXPORT_EXCEL": "Export Excel",
+    "EXPORT_PDF": "Export PDF"
   },
   "VIEW": "View",
   "ALL": "All",
@@ -169,5 +176,66 @@
   "SORT_NAME_DESC": "Name Desc",
   "SORT_PRICE_ASC": "Price Asc",
   "SORT_PRICE_DESC": "Price Desc",
-  "ORDERS_UNIT": "orders"
+  "ORDERS_UNIT": "orders",
+  "CONFIRMATION": "Logout Confirmation",
+  "DO_YOU_WANT_TO_LOGOUT": "Do you really want to log out?",
+  "YES_LOGOUT": "Log out",
+  "STATUS": {
+    "ACTIVE": "Active",
+    "INACTIVE": "Inactive"
+  },
+  "COMMON": {
+    "HOME": "Home",
+    "SELECT_ITEM": "Select item",
+    "YES": "Yes",
+    "NO": "No",
+    "SEARCH": "Search",
+    "CLEAR_COLUMN_FILTERS": "Clear column filters",
+    "REFRESH": "Refresh",
+    "SHOWHIDECOLUMNS": "Show/Hide Columns",
+    "SHOW_HIDE_FILTER_ROW": "Show/Hide Filter Row",
+    "ADVANCED_OPTION": "Advanced Options",
+    "CUSTOMIZE_COLUMNS": "Customize columns",
+    "POSSIBLE_COLUMNS": "Possible Columns",
+    "VISIBLE_COLUMNS": "Visible Columns",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "EXPORT_TABLE": "Export Table",
+    "MORE": "More",
+    "FILENAME": "Filename",
+    "FILE_FORMAT_EXPORT": "File Format",
+    "DELIMITER": "Delimiter",
+    "PAGE": "Page",
+    "CONTENT_OPTION": "Content Option",
+    "LIMIT_RECORDS": "Limit Records"
+  },
+  "ADD_PRODUCT": "Add product",
+  "MANAGEMENT": "Management",
+  "VALIDATION": {
+    "REQUIRED": "Required"
+  },
+  "DYNAMIC_FORM": "Register Form",
+  "ADD_BK_SEARCH_TOOLTIP": "Enter to search",
+  "FAVORITES": {
+    "FAVORITES": "Favorites",
+    "SAVE_TO_FAVORITES": "Save to Favorites",
+    "DELETE_FROM_FAVORITES": "Delete from Favorites",
+    "DONT_HAVE_FAVORITES": "Looks like you don't have any favorites saved. Hover over a page in the sidebar and click on the star to add a favorite.",
+    "CLEAR_SEARCH": "Clear search",
+    "NO_RESULTS_WERE_FOUND": "No results were found for",
+    "RESULTS_WERE_FOUND_FOR": "{0} results were found for {1}",
+    "RESULT_WAS_FOUND_FOR": "{0} result was found for {1}",
+    "PLEASE_TRY_AGAIN": "Please try again",
+    "IS_SAVED_IN_FAVORITES": "{0} is saved in favorites",
+    "IS_DELETED_FROM_FAVORITES": "{0} is deleted from Favorites",
+    "IS_MOVED_UP": "{0} is moved up",
+    "IS_MOVED_DOWN": "{0} is moved down",
+    "IS_HIDDEN": "{0} is hidden",
+    "IS_SHOWING": "{0} is showing",
+    "DELETE_ALL_FAVORITES": "All Favorites are deleted",
+    "CLOSE_CONFIGURATION_MODE": "Close Configuration Mode",
+    "EXPAND_SIDEBAR": "Expand Sidebar",
+    "COLLAPSE_SIDEBAR": "Collapse Sidebar"
+  }
+
 }

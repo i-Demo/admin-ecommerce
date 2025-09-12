@@ -9,12 +9,10 @@ import { OrdersService } from './orders.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 // PrimeNG
 import { TableModule } from 'primeng/table';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MultiSelect } from 'primeng/multiselect';
-
 
 interface Order {
     id: number;
@@ -33,13 +31,12 @@ interface Order {
         FormsModule,
         TranslateModule,
         TableModule,
-        DropdownModule,
         InputTextModule,
         ButtonModule,
         SkeletonModule,
         CustomPaginatorComponent,
         ReactiveFormsModule,
-        MultiSelect
+        MultiSelect,
     ],
     providers: [DatePipe],
     templateUrl: './orders.component.html',
@@ -103,12 +100,12 @@ export class OrdersComponent {
             .subscribe(params => {
                 const isInitialLoad = params['page'] && params['pageSize'];
                 this.handleQueryParams(params);
-                if (!isInitialLoad) {
-                    this.updateQueryParams({
-                        page: this.currentPage,
-                        pageSize: this.pageSize()
-                    }, true);
-                }
+                // if (!isInitialLoad) {
+                //     this.updateQueryParams({
+                //         page: this.currentPage,
+                //         pageSize: this.pageSize()
+                //     }, true);
+                // }
                 this.buildStatusOptions();
             });
         // Search subscribe
@@ -155,7 +152,7 @@ export class OrdersComponent {
 
     goToDetail(order: Order) {
         const params = this.route.snapshot.queryParams;
-        this.router.navigate(['/orders', order.id], { queryParams: params });
+        this.router.navigate(['management/orders', order.id], { queryParams: params });
     }
 
     onPageChange(page: number) {
@@ -201,5 +198,4 @@ export class OrdersComponent {
             replaceUrl
         });
     }
-
 }

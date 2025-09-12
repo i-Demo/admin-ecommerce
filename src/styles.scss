@@ -1,5 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 /* styles.scss */
+// @import "rbn-common-lib/assets/styles/ribbontheme/_extensions.scss";
+// @import "rbn-common-lib/assets/styles/ribbontheme/_fonts.scss";
+// @import "rbn-common-lib/assets/styles/ribbontheme/_variables-grey.scss";
+// @import "rbn-common-lib/assets/styles/ribbontheme/_variables-ribbon.scss";
+// @import "rbn-common-lib/assets/styles/ribbontheme/_variables.scss";
+// @import "rbn-common-lib/assets/styles/ribbontheme/rbn-styles.scss";
+
 @import "primeicons/primeicons.css";
 
 @tailwind base;
@@ -99,7 +106,7 @@
 
 .p-popover {
   .p-popover-content {
-    &>div {
+    & > div {
       border: 1px solid #e5e7eb;
     }
   }
@@ -118,43 +125,45 @@
   }
 }
 // Menu dark mode
-.p-menu-overlay {
-  @apply dark:bg-gray-600 dark:text-white;
+// .p-menu-overlay {
+//   @apply dark:bg-gray-600 dark:text-white;
 
-  .p-menu-item {
-    @apply rounded-lg;
-    .p-menu-item-content {
-      @apply rounded-lg;
-    }
-  }
-  .p-menu-item-link {
-    @apply dark:text-white px-4 py-3 text-sm font-medium text-gray-700 rounded-lg;
+//   .p-menu-item {
+//     @apply rounded-lg;
+//     .p-menu-item-content {
+//       @apply rounded-lg;
+//     }
+//   }
+//   .p-menu-item-link {
+//     @apply dark:text-white px-4 py-3 text-sm font-medium text-gray-700 rounded-lg;
 
-    .p-menu-item-icon {
-      @apply dark:text-white;
-    }
+//     .p-menu-item-icon {
+//       @apply dark:text-white;
+//     }
 
-    &:hover {
-      @apply dark:bg-gray-400 dark:text-white;
-    }
-    &:hover > .p-menu-item-icon {
-      @apply dark:text-white;
-    }
-  }
+//     &:hover {
+//       @apply dark:bg-gray-400 dark:text-white;
+//     }
+//     &:hover > .p-menu-item-icon {
+//       @apply dark:text-white;
+//     }
+//   }
 
-  // Item delete
-  .p-menuitem-delete {
-    .p-menu-item-link {
-      @apply text-red-600 dark:text-red-600 rounded-lg;
-      .p-menu-item-icon {
-        @apply text-red-600 dark:text-red-600;
-      }
-    }
-    &.p-menu-item:not(.p-disabled) .p-menu-item-content:hover .p-menu-item-icon {
-      @apply text-red-600;
-    }
-  }
-}
+//   // Item delete
+//   .p-menuitem-delete {
+//     .p-menu-item-link {
+//       @apply text-red-600 dark:text-red-600 rounded-lg;
+//       .p-menu-item-icon {
+//         @apply text-red-600 dark:text-red-600;
+//       }
+//     }
+//     &.p-menu-item:not(.p-disabled)
+//       .p-menu-item-content:hover
+//       .p-menu-item-icon {
+//       @apply text-red-600;
+//     }
+//   }
+// }
 
 .p-menu-item:not(.p-disabled) .p-menu-item-content:hover .p-menu-item-icon {
   @apply dark:text-white;
@@ -176,3 +185,72 @@
   border: 1px solid #d1d5db !important;
 }
 
+// Custom rbn-common-lib
+.logo {
+  .headerlogo {
+    .productName {
+      @apply text-black dark:text-white;
+    }
+  }
+}
+
+.p-dialog-header {
+  border-radius: 12px 12px 0 0;
+}
+
+.page-header-cs {
+  .header-button {
+    display: flex;
+    align-items: center;
+  }
+  .p-button-icon {
+    color: #a50351;
+  }
+}
+
+.date-picker-cs {
+  .p-dialog-content > div {
+    display: flex;
+  }
+}
+
+.form-cs {
+  .rbn-field-dynamic {
+    margin-bottom: 6px;
+  }
+}
+
+.container-button {
+  position: relative;
+  .menu-custom.p-menu-overlay {
+    top: 100% !important;
+    right: 0 !important;
+    left: unset !important;
+    white-space: nowrap;
+  }
+}
+
+.table-cs {
+  .rbn-table {
+    position: relative;
+
+    .p-overlay.p-component {
+      top: unset !important;
+      bottom: 50px !important;
+      left: unset !important;
+      right: 12px !important;
+    }
+
+    .p-tieredmenu.p-component.p-tieredmenu-overlay {
+      top: 180px !important;
+      left: unset !important;
+      right: 0 !important;
+    }
+  }
+}
+
+.sidebar-cs {
+  #FavoritesTab {
+    margin-bottom: 12px;
+  }
+}
